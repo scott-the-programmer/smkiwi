@@ -1,0 +1,85 @@
+.hero-bg {
+  z-index: -2;
+  background: linear-gradient(#142f6e 30%, #c0d8f7 30%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-image-width: 0px !important;
+}
+
+@media only screen and (min-width: 500px) {
+  .hero-bg {
+    z-index: -1;
+    background: linear-gradient(#142f6e 50%, #c0d8f7 40%);
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .hero-bg {
+    z-index: -1;
+    height: 400px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .hero-bg {
+    z-index: -1;
+    height: 600px;
+  }
+}
+
+.cloud {
+  position: absolute;
+  background-repeat: repeat-x;
+  background-size: contain;
+  width: 100vw;
+  height: 524px;
+  transform: rotateZ(360deg); /* Browser trickery */
+}
+
+.cloud0 {
+  animation: left 60s linear infinite;
+  background-image: url(/public/waves/0.svg);
+}
+
+.cloud1 {
+  animation: right 30s linear infinite;
+  background-image: url(/public/waves/1.svg);
+}
+
+.cloud2 {
+  animation: left 30s linear infinite;
+  background-image: url(/public/waves/2.svg);
+}
+
+.cloud3 {
+  animation: right 40s linear infinite;
+  background-image: url(/public/waves/3.svg);
+}
+
+.cloud4 {
+  animation: left 40s linear infinite;
+  background-image: url(/public/waves/4.svg);
+}
+
+.cloud5 {
+  animation: right 80s linear infinite;
+  background-image: url(/public/waves/5.svg);
+}
+
+@keyframes left {
+  from {
+    background-position: 0px 0;
+  }
+  to {
+    background-position: -100vw 0;
+  }
+}
+
+@keyframes right {
+  from {
+    background-position: 0px 0;
+  }
+  to {
+    background-position: 100vw 0;
+  }
+}
