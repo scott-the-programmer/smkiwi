@@ -1,7 +1,5 @@
 import React from "react";
 
-type Props = {};
-
 const Blog = () => {
   return (
     <div className="m-auto w-screen h-screen text-center items-center flex flex-col">

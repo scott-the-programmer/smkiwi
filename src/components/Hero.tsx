@@ -3,9 +3,7 @@ import GraphToggle from "./GraphToggle";
 import Timeline from "./Timeline";
 import PlantPot from "./PlantPot";
 
-type Props = {};
-
-export default function Home({}: Props) {
+export default function Home() {
   return (
     <div>
       <div id="home" className="hero-bg w-screen">

@@ -10,6 +10,7 @@ const BubbleSkillGraph: React.FC = () => {
     radiusCoefficient = 0.7;
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const data = [
     { name: "Terraform", value: 10, x: width * 0.26, y: height * 0.28 },
     { name: "Pulumi", value: 10, x: width * 0.43, y: height * 0.57 },
@@ -40,7 +41,7 @@ const BubbleSkillGraph: React.FC = () => {
     svg.selectAll("*").remove();
 
     data.forEach((d) => {
-      const radius = (d.value * 10) / 2 * radiusCoefficient;
+      const radius = ((d.value * 10) / 2) * radiusCoefficient;
       svg
         .append("circle")
         .attr("cx", d.x)
@@ -58,7 +59,7 @@ const BubbleSkillGraph: React.FC = () => {
         .attr("font-size", `${d.value + 5}px`)
         .text(d.name);
     });
-  }, [data, width]);
+  }, [data, radiusCoefficient]);
 
   return (
     <svg

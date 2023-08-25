@@ -13,6 +13,7 @@ const Footer: React.FC = () => {
           >
             <img
               className="h-5 w-5 mx-2"
+              alt="Github Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg"
             />
           </a>
@@ -24,6 +25,7 @@ const Footer: React.FC = () => {
           >
             <img
               className="h-5 w-5 mx-2"
+              alt="Twitter Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/twitter.svg"
             />
           </a>
@@ -35,6 +37,7 @@ const Footer: React.FC = () => {
           >
             <img
               className="h-5 w-5 mx-2"
+              alt="Linkedin Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg"
             />
           </a>
@@ -46,6 +49,7 @@ const Footer: React.FC = () => {
           >
             <img
               className="h-5 w-5 mx-2"
+              alt="Instagram Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/instagram.svg"
             />
           </a>
