@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
           data-testid="MobileDog"
           onClick={() => setIsOpen(false)}
         >
-          Blog
+          Dog
         </Link>
       </div>
     </nav>
