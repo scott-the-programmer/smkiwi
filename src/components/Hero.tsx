@@ -33,10 +33,7 @@ export default function Home() {
             >
               Cloud Whisperer
             </h1>
-            <h2 className="text-center text-nav-bar-yellow text-2xl pt-2">
-              Where Clouds and Code Meet
-            </h2>
-            <p className="m-auto text-justify lg:text-lg lg:w-96">
+            <p className="m-auto pt-5 text-justify lg:text-lg lg:w-96">
               Experienced <del>bug</del>{" "}
               <b>
                 <em>clean code</em>
