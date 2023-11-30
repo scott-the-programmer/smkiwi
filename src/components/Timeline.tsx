@@ -32,6 +32,11 @@ const timelineData = [
   },
   {
     type: "project",
+    name: "Became a dog owner 🐶",
+    startDate: "Feb 2022",
+  },
+  {
+    type: "project",
     name: "Hackathon Zip 2022 (2nd place)",
     startDate: "Feb 2022",
   },
@@ -107,6 +112,16 @@ const timelineData = [
   },
 ];
 
+function renderNameWithItalicText(name?: string) {
+  if (name === undefined) {
+    return (<></>)
+  }
+  const emojiRegex = /(\p{Emoji_Presentation})/u;
+  return name.split(emojiRegex).map((part, index) =>
+    emojiRegex.test(part) ? <span key={index}>{part}</span> : <i key={index}>{part}</i>
+  );
+}
+
 const Timeline: React.FC = () => {
   return (
     <div className="flex flex-col items-center w-full">
@@ -129,17 +144,17 @@ const Timeline: React.FC = () => {
               </div>
             </div>
           )}
+
           {item.type === "project" && (
             <div className="project flex items-center h-4 my-2 w-full justify-center relative">
               <div className="line w-1 h-4 bg-gray-600 absolute"></div>
               <div
-                className={`text-sm text-gray-700 italic absolute w-1/2 ${
-                  index % 2 === 0
-                    ? "right-1/2 text-right pr-4"
-                    : "left-1/2 text-left pl-4"
-                }`}
+                className={`text-sm text-gray-700 absolute w-1/2 ${index % 2 === 0
+                  ? "right-1/2 text-right pr-4"
+                  : "left-1/2 text-left pl-4"
+                  }`}
               >
-                {item.name}
+                {renderNameWithItalicText(item.name)}
               </div>
             </div>
           )}
