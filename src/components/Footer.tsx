@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2"
+              className="h-5 w-5 mx-2 invert"
               alt="Github Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg"
             />
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2"
+              className="h-5 w-5 mx-2 invert"
               alt="Twitter Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/twitter.svg"
             />
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2"
+              className="h-5 w-5 mx-2 invert"
               alt="Linkedin Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg"
             />
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2"
+              className="h-5 w-5 mx-2 invert"
               alt="Instagram Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/instagram.svg"
             />
