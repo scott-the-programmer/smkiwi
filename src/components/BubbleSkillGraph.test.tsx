@@ -10,8 +10,8 @@ describe("BubbleSkillGraph", () => {
     const circles = document.querySelectorAll("circle");
     const texts = document.querySelectorAll("text");
 
-    expect(circles.length).toBe(7);
-    expect(texts.length).toBe(7);
+    expect(circles.length).toBe(11);
+    expect(texts.length).toBe(11);
   });
 
   test("renders the texts correctly", () => {
