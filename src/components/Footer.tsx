@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
             <img
               className="h-5 w-5 mx-2 invert"
               alt="Twitter Icon"
-              src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/twitter.svg"
+              src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/x.svg"
             />
           </a>
           <a
