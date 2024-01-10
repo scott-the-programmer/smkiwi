@@ -1,9 +1,9 @@
-export type Satellite = {
+export type SatelliteInfo = {
   name: string;
   latitude: number;
   longitude: number;
-  relativeX: number;
-  relativeY: number;
+  age: Date;
+  altitude: number;
 };
 
 export class SatelliteClient {
@@ -13,7 +13,7 @@ export class SatelliteClient {
     this.baseUrl = baseUrl;
   }
 
-  private async fetchSatellites(endpoint: string): Promise<Satellite[]> {
+  private async fetchSatellites(endpoint: string): Promise<SatelliteInfo[]> {
     try {
       const response = await fetch(`${this.baseUrl}/${endpoint}`);
       if (!response.ok) {
@@ -26,7 +26,7 @@ export class SatelliteClient {
     }
   }
 
-  async getAllSatellites(): Promise<Satellite[]> {
+  async getAllSatellites(): Promise<SatelliteInfo[]> {
     const endpoints = ['weatherstations'];
     const promises = endpoints.map(endpoint => this.fetchSatellites(endpoint));
     const results = await Promise.all(promises);

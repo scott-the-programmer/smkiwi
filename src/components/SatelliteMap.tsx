@@ -1,19 +1,17 @@
-import React, { useState, useEffect, CSSProperties, useMemo } from "react";
-import { SatelliteClient, Satellite } from "../lib/satellite-client";
+import React, { useState, useEffect, useMemo } from "react";
+import { SatelliteClient, SatelliteInfo } from "../lib/satellite-client";
 import SatellitePopup from "./SatellitePopup";
-import "./SatelliteMap.css";
+import Satellite from "./Satellite";
 
 const SatelliteMap: React.FC = () => {
-  const [satellites, setSatellites] = useState<Satellite[]>([]);
+  const [satellites, setSatellites] = useState<SatelliteInfo[]>([]);
   const satelliteClient = useMemo(
     () => new SatelliteClient("https://api.murray.kiwi/satellite"),
     [],
   );
-  const [selectedSatellite, setSelectedSatellite] = useState<Satellite | null>(
-    null,
-  );
   const getRandomRotation = () => Math.floor(Math.random() * 360);
   const getRandomBounce = () => Math.floor(Math.random() * 10) + 1;
+  const getRandomAppearance = () => Math.floor(Math.random() * 10) + 5;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,65 +22,41 @@ const SatelliteMap: React.FC = () => {
     fetchData();
   }, [satelliteClient]);
 
-  const minLongitude = Math.min(...satellites.map((s) => s.longitude));
-  const maxLongitude = Math.max(...satellites.map((s) => s.longitude));
   const minLatitude = Math.min(...satellites.map((s) => s.latitude));
   const maxLatitude = Math.max(...satellites.map((s) => s.latitude));
+  const minAltitude = Math.min(...satellites.map((s) => s.altitude));
+  const maxAltitude = Math.max(...satellites.map((s) => s.altitude));
 
-  const convertToPercentagePosition = (latitude: number, longitude: number) => {
-    const longitudeRange = maxLongitude - minLongitude;
+  const convertToPercentagePosition = (latitude: number, altitude: number) => {
     const latitudeRange = maxLatitude - minLatitude;
+    const altitudeRange = maxAltitude - minAltitude;
 
-    const x = ((longitude - minLongitude) / longitudeRange) * 90;
-    const y = 75 - (((latitude - minLatitude) / latitudeRange) * 70); 
+    const x = ((latitude - minLatitude) / latitudeRange) * 90;
+    const y = 100 - ((altitude - minAltitude) / altitudeRange) * 70 - 25;
 
-    console.table({x,y,longitude,latitude,minLongitude, maxLongitude, longitudeRange,  resX: (longitude - minLongitude)})
+    console.table({x: x,y: y,altitude: altitude, altitudeRange:altitudeRange,minAltitude: minAltitude, maxAltitude:maxAltitude})
 
     return { x, y };
   };
 
-  const handleSatelliteClick = (satellite: Satellite) => {
-    setSelectedSatellite(satellite);
-  };
-
-  const closePopup = () => {
-    setSelectedSatellite(null);
-  };
-
   return (
     <div className="relative w-[90vw] h-[10vh] overflow-hidden m-auto">
-      {satellites.map((satellite: Satellite) => {
+      {satellites.map((satellite: SatelliteInfo) => {
         const { x, y } = convertToPercentagePosition(
           satellite.latitude,
-          satellite.longitude,
+          satellite.altitude,
         );
         console.log(`Satellite ${satellite.name}: x=${x}, y=${y}`);
 
         const rotation = getRandomRotation();
         const bounce = getRandomBounce();
+        const delay = getRandomAppearance();
         return (
-          <div
-            key={satellite.name}
-            className="absolute w-5 h-5 satellite"
-            onClick={() => handleSatelliteClick(satellite)}
-            style={
-              {
-                left: `${x}%`,
-                top: `${y}%`,
-                width: "25px",
-                height: "25px",
-                "--rotation": `${rotation}deg`,
-                "--bounce": `${bounce}s`,
-              } as CSSProperties
-            }
-          >
-            <img src="icons/satellite.png" alt={satellite.name} />
-          </div>
+          <SatellitePopup name={satellite.name} latitude={satellite.latitude} longitude={satellite.longitude} altitude={satellite.altitude}>
+            <Satellite rotation={rotation} bounce={bounce} delay={delay} x={x} y={y} name={satellite.name}/>
+          </SatellitePopup>
         );
       })}
-      {selectedSatellite && (
-        <SatellitePopup satellite={selectedSatellite} onClose={closePopup} />
-      )}
     </div>
   );
 };

@@ -7,6 +7,11 @@
   }
 }
 
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 100%;}
+}
+
 .satellite {
-  animation: rotateAndBounce var(--bounce) ease-in-out infinite; 
+  animation: fadeIn var(--delay), rotateAndBounce var(--bounce) ease-in-out infinite; 
 }
