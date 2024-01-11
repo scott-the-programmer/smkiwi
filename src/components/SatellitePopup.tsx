@@ -9,7 +9,6 @@ import {
   DrawerTrigger,
 } from "../shadcn/ui/drawer";
 import { SatelliteType } from "../lib/satellite-client";
-import { read } from "fs";
 
 type SatellitePopupProps = {
   name: string;
