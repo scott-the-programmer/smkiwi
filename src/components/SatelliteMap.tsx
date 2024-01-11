@@ -57,6 +57,7 @@ const SatelliteMap: React.FC = () => {
             longitude={satellite.longitude}
             altitude={satellite.altitude}
             birthday={satellite.age}
+            type={satellite.type}
           >
             <Satellite
               rotation={rotation}

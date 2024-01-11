@@ -8,6 +8,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../shadcn/ui/drawer";
+import { SatelliteType } from "../lib/satellite-client";
+import { read } from "fs";
 
 type SatellitePopupProps = {
   name: string;
@@ -15,6 +17,7 @@ type SatellitePopupProps = {
   longitude: number;
   altitude: number;
   birthday: Date;
+  type: SatelliteType;
   children: React.ReactNode;
 };
 
@@ -24,9 +27,19 @@ const SatellitePopup: React.FC<SatellitePopupProps> = ({
   longitude,
   altitude,
   birthday,
+  type,
   children,
 }) => {
   const age = calculateAge(birthday);
+  let readableType = "";
+  switch (type) {
+    case SatelliteType.WeatherStation:
+      readableType = "Weather Station";
+      break;
+    default:
+      readableType = type[0].toUpperCase() + type.slice(1);
+  }
+
   return (
     <Drawer>
       <DrawerTrigger>{children}</DrawerTrigger>
@@ -37,8 +50,8 @@ const SatellitePopup: React.FC<SatellitePopupProps> = ({
           </DrawerHeader>
           <div className="table">
             <div className="table-row mx-auto my-auto">
-              <div className="table-cell w-1/2 align-top pt-5">
-                <DrawerDescription>Type: Weather Station</DrawerDescription>
+              <div className="table-cell w-1/2 align-top pt-5 text-center">
+                <DrawerDescription>Type: {readableType}</DrawerDescription>
                 <DrawerDescription>Latitude: {latitude}</DrawerDescription>
                 <DrawerDescription>Longitude: {longitude}</DrawerDescription>
                 <DrawerDescription>Altitude: {altitude}km</DrawerDescription>
