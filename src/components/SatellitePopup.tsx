@@ -26,7 +26,6 @@ const SatellitePopup: React.FC<SatellitePopupProps> = ({
   birthday,
   children,
 }) => {
-  console.log(birthday);
   const age = calculateAge(birthday);
   return (
     <Drawer>
