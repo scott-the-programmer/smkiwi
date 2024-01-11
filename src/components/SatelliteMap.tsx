@@ -38,7 +38,7 @@ const SatelliteMap: React.FC = () => {
   };
 
   return (
-    <div className="relative w-[90vw] h-[20vh] overflow-hidden m-auto">
+    <div className="w-[90vw] h-[20vh] overflow-hidden m-auto absolute">
       {satellites.map((satellite: SatelliteInfo) => {
         const { x, y } = convertToPercentagePosition(
           satellite.longitude,
