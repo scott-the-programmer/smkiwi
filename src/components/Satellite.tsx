@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEventHandler } from "react";
+import { CSSProperties } from "react";
 import "./Satellite.css";
 
 interface SatelliteProps {
