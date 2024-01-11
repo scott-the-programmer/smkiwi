@@ -37,49 +37,49 @@
 }
 
 .cloud0 {
-  animation: left 60s linear infinite;
+  animation: left 60s ease-in-out infinite;
   background-image: url(/public/waves/0.svg);
 }
 
 .cloud1 {
-  animation: right 30s linear infinite;
+  animation: right 30s ease-in-out infinite;
   background-image: url(/public/waves/1.svg);
 }
 
 .cloud2 {
-  animation: left 30s linear infinite;
+  animation: left 30s ease-in-out infinite;
   background-image: url(/public/waves/2.svg);
 }
 
 .cloud3 {
-  animation: right 40s linear infinite;
+  animation: right 40s ease-in-out infinite;
   background-image: url(/public/waves/3.svg);
 }
 
 .cloud4 {
-  animation: left 40s linear infinite;
+  animation: left 40s ease-in-out infinite;
   background-image: url(/public/waves/4.svg);
 }
 
 .cloud5 {
-  animation: right 80s linear infinite;
+  animation: right 80s ease-in-out infinite;
   background-image: url(/public/waves/5.svg);
 }
 
 @keyframes left {
-  from {
-    background-position: 0px 0;
+  0%, 100% {
+    background-position: 0 0;
   }
-  to {
-    background-position: -100vw 0;
+  50% {
+    background-position: -50vw 0; 
   }
 }
 
 @keyframes right {
-  from {
-    background-position: 0px 0;
+  0%, 100% {
+    background-position: 0 0;
   }
-  to {
-    background-position: 100vw 0;
+  50% {
+    background-position: 50vw 0;
   }
 }
