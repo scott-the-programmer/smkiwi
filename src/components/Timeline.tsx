@@ -114,12 +114,18 @@ const timelineData = [
 
 function renderNameWithItalicText(name?: string) {
   if (name === undefined) {
-    return (<></>)
+    return <></>;
   }
   const emojiRegex = /(\p{Emoji_Presentation})/u;
-  return name.split(emojiRegex).map((part, index) =>
-    emojiRegex.test(part) ? <span key={index}>{part}</span> : <i key={index}>{part}</i>
-  );
+  return name
+    .split(emojiRegex)
+    .map((part, index) =>
+      emojiRegex.test(part) ? (
+        <span key={index}>{part}</span>
+      ) : (
+        <i key={index}>{part}</i>
+      ),
+    );
 }
 
 const Timeline: React.FC = () => {
@@ -149,10 +155,11 @@ const Timeline: React.FC = () => {
             <div className="project flex items-center h-4 my-2 w-full justify-center relative">
               <div className="line w-1 h-4 bg-gray-600 absolute"></div>
               <div
-                className={`text-sm text-gray-700 absolute w-1/2 ${index % 2 === 0
-                  ? "right-1/2 text-right pr-4"
-                  : "left-1/2 text-left pl-4"
-                  }`}
+                className={`text-sm text-gray-700 absolute w-1/2 ${
+                  index % 2 === 0
+                    ? "right-1/2 text-right pr-4"
+                    : "left-1/2 text-left pl-4"
+                }`}
               >
                 {renderNameWithItalicText(item.name)}
               </div>

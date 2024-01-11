@@ -15,7 +15,7 @@ const BubbleSkillGraph: React.FC = () => {
     { name: "Terraform", value: 10, x: width * 0.26, y: height * 0.28 },
     { name: "AWS", value: 8, x: width * 0.35, y: height * 0.52 },
     { name: "Pulumi", value: 10, x: width * 0.55, y: height * 0.47 },
-    { name: "Azure", value: 8, x: width * 0.50, y: height * 0.19 },
+    { name: "Azure", value: 8, x: width * 0.5, y: height * 0.19 },
     { name: ".NET", value: 9, x: width * 0.8, y: height * 0.57 },
     { name: "Golang", value: 8, x: width * 0.74, y: height * 0.28 },
     { name: "Typescript", value: 8, x: width * 0.2, y: height * 0.74 },

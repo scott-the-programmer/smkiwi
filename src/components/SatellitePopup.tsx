@@ -26,8 +26,8 @@ const SatellitePopup: React.FC<SatellitePopupProps> = ({
   birthday,
   children,
 }) => {
-  console.log(birthday)
-  const age = calculateAge(birthday)
+  console.log(birthday);
+  const age = calculateAge(birthday);
   return (
     <Drawer>
       <DrawerTrigger>{children}</DrawerTrigger>
@@ -54,8 +54,7 @@ const SatellitePopup: React.FC<SatellitePopupProps> = ({
               </div>
             </div>
           </div>
-          <DrawerFooter>
-          </DrawerFooter>
+          <DrawerFooter></DrawerFooter>
         </div>
       </DrawerContent>
     </Drawer>
@@ -73,7 +72,9 @@ function calculateAge(birthDate: Date): string {
   const yearsOld = Math.floor(monthsOld / 12);
   const partialMonths = monthsOld % 12;
 
-  return yearsOld > 0 ? `${yearsOld} years and ${partialMonths} months` : `${partialMonths} months`;
+  return yearsOld > 0
+    ? `${yearsOld} years and ${partialMonths} months`
+    : `${partialMonths} months`;
 }
 
 export default SatellitePopup;

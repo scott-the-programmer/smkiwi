@@ -16,8 +16,7 @@ export default function Home() {
         <div className="cloud cloud5"></div>
         <div className="absolute bg-svg-last overflow-divider"></div>
         <div className="z-10 relative">
-
-        <SatelliteMap/>
+          <SatelliteMap />
           <div
             className="
             w-3/5

@@ -31,7 +31,7 @@ export class SatelliteClient {
         });
       });
 
-      return typedResponse
+      return typedResponse;
     } catch (error) {
       console.error(`Error fetching ${endpoint}:`, error);
       return [];

@@ -21,7 +21,7 @@ code {
 
 @layer base {
   :root {
-    --background: 213.8,77.5%,86.1%;
+    --background: 213.8, 77.5%, 86.1%;
     --foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -93,6 +93,8 @@ code {
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }

@@ -1,5 +1,6 @@
 @keyframes rotateAndBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(-25%) rotate(var(--rotation));
   }
   50% {
@@ -8,12 +9,18 @@
 }
 
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 100%;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100%;
+  }
 }
 
 .satellite {
-  animation: fadeIn 2s forwards, rotateAndBounce var(--bounce) ease-in-out infinite; 
+  animation:
+    fadeIn 2s forwards,
+    rotateAndBounce var(--bounce) ease-in-out infinite;
   animation-delay: var(--delay);
   opacity: 0;
 }

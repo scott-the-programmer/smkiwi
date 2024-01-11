@@ -57,8 +57,8 @@ const SatelliteMap: React.FC = () => {
         const rotation = getRandomRotation();
         const bounce = getRandomBounce();
         const delay = getRandomAppearance();
-        
-        console.log(typeof(satellite.age))
+
+        console.log(typeof satellite.age);
 
         return (
           <SatellitePopup
