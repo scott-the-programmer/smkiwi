@@ -2,6 +2,7 @@ import "./Hero.css";
 import GraphToggle from "./GraphToggle";
 import Timeline from "./Timeline";
 import PlantPot from "./PlantPot";
+import SatelliteMap from "./SatelliteMap";
 
 export default function Home() {
   return (
@@ -15,24 +16,24 @@ export default function Home() {
         <div className="cloud cloud5"></div>
         <div className="absolute bg-svg-last overflow-divider"></div>
         <div className="z-10 relative">
+
+        <SatelliteMap/>
           <div
             className="
-            content-center
             w-3/5
             m-auto
             justify-start
-            pt-4
-            lg:pt-12
             text-blog-text
           "
           >
             <h1
               className="
-          text-center text-nav-bar-yellow text-5xl pt-20 lg:pt-40 lg:text-7xl
+          text-center text-nav-bar-yellow text-5xl pt-20 lg:text-7xl
         "
             >
               Cloud Whisperer
             </h1>
+
             <p className="m-auto pt-5 text-justify lg:text-lg lg:w-96">
               Experienced <del>bug</del>{" "}
               <b>
