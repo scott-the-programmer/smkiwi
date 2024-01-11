@@ -34,15 +34,6 @@ const SatelliteMap: React.FC = () => {
     const x = ((longitude - minLongitude) / longitudeRange) * 90;
     const y = 100 - ((altitude - minAltitude) / altitudeRange) * 70 - 25;
 
-    console.table({
-      x: x,
-      y: y,
-      altitude: altitude,
-      altitudeRange: altitudeRange,
-      minAltitude: minAltitude,
-      maxAltitude: maxAltitude,
-    });
-
     return { x, y };
   };
 
@@ -58,7 +49,6 @@ const SatelliteMap: React.FC = () => {
         const bounce = getRandomBounce();
         const delay = getRandomAppearance();
 
-        console.log(typeof satellite.age);
 
         return (
           <SatellitePopup
