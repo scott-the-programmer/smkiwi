@@ -11,49 +11,71 @@ const SatelliteMap: React.FC = () => {
   );
   const getRandomRotation = () => Math.floor(Math.random() * 360);
   const getRandomBounce = () => Math.floor(Math.random() * 10) + 1;
-  const getRandomAppearance = () => Math.floor(Math.random() * 10) + 5;
+  const getRandomAppearance = () => Math.floor(Math.random() * 4) + 1;
 
   useEffect(() => {
     const fetchData = async () => {
-      const allSatellites = await satelliteClient.getAllSatellites();
+      const allSatellites = await satelliteClient.getSatellites();
       setSatellites(allSatellites);
     };
 
     fetchData();
   }, [satelliteClient]);
 
-  const minLatitude = Math.min(...satellites.map((s) => s.latitude));
-  const maxLatitude = Math.max(...satellites.map((s) => s.latitude));
+  const minLongitude = Math.min(...satellites.map((s) => s.longitude));
+  const maxLongitude = Math.max(...satellites.map((s) => s.longitude));
   const minAltitude = Math.min(...satellites.map((s) => s.altitude));
   const maxAltitude = Math.max(...satellites.map((s) => s.altitude));
 
-  const convertToPercentagePosition = (latitude: number, altitude: number) => {
-    const latitudeRange = maxLatitude - minLatitude;
+  const convertToPercentagePosition = (longitude: number, altitude: number) => {
+    const longitudeRange = maxLongitude - minLongitude;
     const altitudeRange = maxAltitude - minAltitude;
 
-    const x = ((latitude - minLatitude) / latitudeRange) * 90;
+    const x = ((longitude - minLongitude) / longitudeRange) * 90;
     const y = 100 - ((altitude - minAltitude) / altitudeRange) * 70 - 25;
 
-    console.table({x: x,y: y,altitude: altitude, altitudeRange:altitudeRange,minAltitude: minAltitude, maxAltitude:maxAltitude})
+    console.table({
+      x: x,
+      y: y,
+      altitude: altitude,
+      altitudeRange: altitudeRange,
+      minAltitude: minAltitude,
+      maxAltitude: maxAltitude,
+    });
 
     return { x, y };
   };
 
   return (
-    <div className="relative w-[90vw] h-[10vh] overflow-hidden m-auto">
+    <div className="relative w-[90vw] h-[20vh] overflow-hidden m-auto">
       {satellites.map((satellite: SatelliteInfo) => {
         const { x, y } = convertToPercentagePosition(
-          satellite.latitude,
+          satellite.longitude,
           satellite.altitude,
         );
-        console.log(`Satellite ${satellite.name}: x=${x}, y=${y}`);
 
         const rotation = getRandomRotation();
         const bounce = getRandomBounce();
         const delay = getRandomAppearance();
+        
+        console.log(typeof(satellite.age))
+
         return (
-          <SatellitePopup name={satellite.name} latitude={satellite.latitude} longitude={satellite.longitude} altitude={satellite.altitude}>
-            <Satellite rotation={rotation} bounce={bounce} delay={delay} x={x} y={y} name={satellite.name}/>
+          <SatellitePopup
+            name={satellite.name}
+            latitude={satellite.latitude}
+            longitude={satellite.longitude}
+            altitude={satellite.altitude}
+            birthday={satellite.age}
+          >
+            <Satellite
+              rotation={rotation}
+              bounce={bounce}
+              delay={delay}
+              x={x}
+              y={y}
+              name={satellite.name}
+            />
           </SatellitePopup>
         );
       })}
