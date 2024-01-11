@@ -10,7 +10,7 @@ describe('SatelliteClient', () => {
     ) as jest.Mock;
 
     const client = new SatelliteClient('http://localhost');
-    const satellites = await client.getAllSatellites();
+    const satellites = await client.getSatellites();
 
     expect(satellites.length).toBeGreaterThan(0);
     expect(satellites[0].name).toBe('Test Satellite');

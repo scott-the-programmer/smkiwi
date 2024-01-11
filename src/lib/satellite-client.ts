@@ -19,18 +19,39 @@ export class SatelliteClient {
       if (!response.ok) {
         throw new Error(`Error fetching ${endpoint}: ${response.statusText}`);
       }
-      return await response.json();
+      const satellites = await response.json();
+      const typedResponse: SatelliteInfo[] = [];
+      satellites.forEach((s: any) => {
+        typedResponse.push({
+          name: s.name,
+          latitude: s.latitude,
+          longitude: s.longitude,
+          age: new Date(s.age),
+          altitude: s.altitude,
+        });
+      });
+
+      return typedResponse
     } catch (error) {
       console.error(`Error fetching ${endpoint}:`, error);
       return [];
     }
   }
 
-  async getAllSatellites(): Promise<SatelliteInfo[]> {
-    const endpoints = ['weatherstations'];
-    const promises = endpoints.map(endpoint => this.fetchSatellites(endpoint));
+  async getSatellites(): Promise<SatelliteInfo[]> {
+    const endpoints = [
+      "weatherstations",
+      "iss",
+      "iridiums",
+      "starlinks",
+      "tv",
+      "brightest",
+      "celestis",
+    ];
+    const promises = endpoints.map((endpoint) =>
+      this.fetchSatellites(endpoint),
+    );
     const results = await Promise.all(promises);
-    console.log(results)
     return results.flat();
   }
 }
