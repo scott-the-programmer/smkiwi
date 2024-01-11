@@ -33,7 +33,7 @@ export default function Home() {
               Cloud Whisperer
             </h1>
 
-            <p className="m-auto pt-12 text-justify lg:text-lg lg:w-96">
+            <p className="m-auto pt-16 text-justify lg:text-lg lg:w-96">
               Experienced <del>bug</del>{" "}
               <b>
                 <em>clean code</em>
