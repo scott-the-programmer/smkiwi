@@ -13,5 +13,7 @@
 }
 
 .satellite {
-  animation: fadeIn var(--delay), rotateAndBounce var(--bounce) ease-in-out infinite; 
+  animation: fadeIn 2s forwards, rotateAndBounce var(--bounce) ease-in-out infinite; 
+  animation-delay: var(--delay);
+  opacity: 0;
 }
