@@ -3,8 +3,7 @@ import React from "react";
 const Footer: React.FC = () => {
   return (
     <footer className="bg-custom-blue text-white p-4 mt-8">
-      <div className="container flex justify-between max-w-none">
-        <div className="flex space-x-4">
+        <div className="flex content-center max-w-fit m-auto">
           <a
             href="https://github.com/scott-the-programmer"
             target="_blank"
@@ -12,7 +11,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2 invert"
+              className="h-5 w-5 mx-5 invert"
               alt="Github Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg"
             />
@@ -24,7 +23,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2 invert"
+              className="h-5 w-5 mx-5 invert"
               alt="Twitter Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/x.svg"
             />
@@ -36,7 +35,7 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2 invert"
+              className="h-5 w-5 mx-5 invert"
               alt="Linkedin Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg"
             />
@@ -48,14 +47,12 @@ const Footer: React.FC = () => {
             className="text-lg"
           >
             <img
-              className="h-5 w-5 mx-2 invert"
+              className="h-5 w-5 mx-5 invert"
               alt="Instagram Icon"
               src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/instagram.svg"
             />
           </a>
         </div>
-        <p className="text-sm">Scott Murray</p>
-      </div>
     </footer>
   );
 };
