@@ -31,14 +31,14 @@ const SatelliteMap: React.FC = () => {
     const longitudeRange = maxLongitude - minLongitude;
     const altitudeRange = maxAltitude - minAltitude;
 
-    const x = ((longitude - minLongitude) / longitudeRange) * 90;
+    const x = ((longitude - minLongitude) / longitudeRange) * 80 + 10;
     const y = 100 - ((altitude - minAltitude) / altitudeRange) * 70 - 25;
 
     return { x, y };
   };
 
   return (
-    <div className="w-[90vw] h-[20vh] overflow-hidden m-auto absolute">
+    <div className="w-[100vw] h-[20vh] overflow-hidden m-auto absolute">
       {satellites.map((satellite: SatelliteInfo) => {
         const { x, y } = convertToPercentagePosition(
           satellite.longitude,
