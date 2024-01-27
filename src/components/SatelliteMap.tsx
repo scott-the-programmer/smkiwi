@@ -11,7 +11,7 @@ const SatelliteMap: React.FC = () => {
   );
   const getRandomRotation = () => Math.floor(Math.random() * 360);
   const getRandomBounce = () => Math.floor(Math.random() * 10) + 1;
-  const getRandomAppearance = () => Math.floor(Math.random() * 4) + 1;
+  const getRandomAppearance = () => Math.floor(Math.random() * 4);
 
   useEffect(() => {
     const fetchData = async () => {
