@@ -1,8 +1,8 @@
 import "./Hero.css";
-import GraphToggle from "./GraphToggle";
 import Timeline from "./Timeline";
 import PlantPot from "./PlantPot";
 import SatelliteMap from "./SatelliteMap";
+import BubbleSkillGraph from "./BubbleSkillGraph";
 
 export default function Home() {
   return (
@@ -48,7 +48,7 @@ export default function Home() {
         </div>
       </div>
 
-      <GraphToggle />
+      <BubbleSkillGraph/>
       <Timeline />
       <PlantPot />
     </div>
