@@ -23,7 +23,7 @@
 @media only screen and (min-width: 1024px) {
   .hero-bg {
     z-index: -1;
-    height: 600px;
+    height: 450px;
   }
 }
 
