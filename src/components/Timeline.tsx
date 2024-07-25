@@ -2,6 +2,13 @@ import React from "react";
 
 const timelineData = [
   {
+    type: "employment",
+    company: "Starshipit",
+    logo: "timeline/starshipit.jpeg",
+    startDate: "Jan 2024 - Present",
+    endDate: "Present",
+  },
+  {
     type: "project",
     name: "Hackathon Lightspeed 2023",
     startDate: "Feb 2022",
@@ -15,7 +22,7 @@ const timelineData = [
     type: "employment",
     company: "Lightspeed",
     logo: "timeline/lightspeed.jpeg",
-    startDate: "Oct 2022",
+    startDate: "Oct 2022 - Jan 2024",
     endDate: "Present",
   },
   {
