@@ -119,7 +119,7 @@ const timelineData = [
   },
 ];
 
-function renderNameWithItalicText(name?: string) {
+function renderName(name?: string) {
   if (name === undefined) {
     return <></>;
   }
@@ -130,7 +130,7 @@ function renderNameWithItalicText(name?: string) {
       emojiRegex.test(part) ? (
         <span key={index}>{part}</span>
       ) : (
-        <i key={index}>{part}</i>
+        <p key={index}>{part}</p>
       ),
     );
 }
@@ -168,7 +168,7 @@ const Timeline: React.FC = () => {
                     : "left-1/2 text-left pl-4"
                 }`}
               >
-                {renderNameWithItalicText(item.name)}
+                {renderName(item.name)}
               </div>
             </div>
           )}
