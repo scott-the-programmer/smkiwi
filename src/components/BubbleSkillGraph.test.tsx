@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import BubbleSkillGraph from "./BubbleSkillGraph";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 
 describe("BubbleSkillGraph", () => {
   test("renders the correct number of circles and texts", () => {
