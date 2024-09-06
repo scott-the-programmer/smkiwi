@@ -15,6 +15,8 @@ export enum SatelliteType {
   TV = "tv",
   Brightest = "brightest",
   Celestis = "celestis",
+  Experimental = "experimental",
+  DisasterMonitoring = "disaster-monitoring",
 }
 
 export class SatelliteClient {
@@ -59,6 +61,8 @@ export class SatelliteClient {
       SatelliteType.TV,
       SatelliteType.Brightest,
       SatelliteType.Celestis,
+      SatelliteType.Experimental,
+      SatelliteType.DisasterMonitoring,
     ];
     const promises = types.map((endpoint) =>
       this.fetchSatellites(endpoint),
