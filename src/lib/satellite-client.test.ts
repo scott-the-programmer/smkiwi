@@ -1,8 +1,9 @@
 import { SatelliteClient } from "./satellite-client";
+import { describe, it, expect, vi} from 'vitest';
 
 describe("SatelliteClient", () => {
   it("fetches and combines satellite data correctly", async () => {
-    global.fetch = jest.fn((endpoint) =>
+    global.fetch = vi.fn((endpoint) =>
       Promise.resolve({
         ok: true,
         json: () =>

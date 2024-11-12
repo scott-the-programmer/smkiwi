@@ -38,32 +38,32 @@
 
 .cloud0 {
   animation: left 60s ease-in-out infinite;
-  background-image: url(/public/waves/0.svg);
+  background-image: url(/waves/0.svg);
 }
 
 .cloud1 {
   animation: right 30s ease-in-out infinite;
-  background-image: url(/public/waves/1.svg);
+  background-image: url(/waves/1.svg);
 }
 
 .cloud2 {
   animation: left 30s ease-in-out infinite;
-  background-image: url(/public/waves/2.svg);
+  background-image: url(/waves/2.svg);
 }
 
 .cloud3 {
   animation: right 40s ease-in-out infinite;
-  background-image: url(/public/waves/3.svg);
+  background-image: url(/waves/3.svg);
 }
 
 .cloud4 {
   animation: left 40s ease-in-out infinite;
-  background-image: url(/public/waves/4.svg);
+  background-image: url(/waves/4.svg);
 }
 
 .cloud5 {
   animation: right 80s ease-in-out infinite;
-  background-image: url(/public/waves/5.svg);
+  background-image: url(/waves/5.svg);
 }
 
 @keyframes left {
