@@ -2,10 +2,15 @@ import React from "react";
 
 const timelineData = [
   {
+    type: "project",
+    name: "Dog2 🐶",
+    startDate: "Sep 2024",
+  },
+  {
     type: "employment",
     company: "Starshipit",
     logo: "timeline/starshipit.jpeg",
-    startDate: "Jan 2024 - Present",
+    startDate: "Jan 2024",
     endDate: "Present",
   },
   {
@@ -22,8 +27,8 @@ const timelineData = [
     type: "employment",
     company: "Lightspeed",
     logo: "timeline/lightspeed.jpeg",
-    startDate: "Oct 2022 - Jan 2024",
-    endDate: "Present",
+    startDate: "Oct 2022",
+    endDate: "Jan 2024",
   },
   {
     type: "project",
@@ -76,12 +81,7 @@ const timelineData = [
   },
   {
     type: "project",
-    name: "Started scott-the-programmer.com",
-    startDate: "Feb 2022",
-  },
-  {
-    type: "project",
-    name: "Created droid-up (mobile backup utility)",
+    name: "Started scott.murray.kiwi",
     startDate: "Feb 2022",
   },
   {
@@ -119,22 +119,6 @@ const timelineData = [
   },
 ];
 
-function renderName(name?: string) {
-  if (name === undefined) {
-    return <></>;
-  }
-  const emojiRegex = /(\p{Emoji_Presentation})/u;
-  return name
-    .split(emojiRegex)
-    .map((part, index) =>
-      emojiRegex.test(part) ? (
-        <span key={index}>{part}</span>
-      ) : (
-        <p key={index}>{part}</p>
-      ),
-    );
-}
-
 const Timeline: React.FC = () => {
   return (
     <div className="flex flex-col items-center w-full">
@@ -168,7 +152,7 @@ const Timeline: React.FC = () => {
                     : "left-1/2 text-left pl-4"
                 }`}
               >
-                {renderName(item.name)}
+                {item.name}
               </div>
             </div>
           )}
