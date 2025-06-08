@@ -30,7 +30,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "lint": "prettier . --check",
-    "lint-fix": "prettier . --write"
+    "lint-fix": "prettier . --write",
+    "generate-client": "openapi-generator-cli generate -i https://blog-api.murray.kiwi/swagger/doc.json -g typescript-fetch -o src/lib/blog-api-client --additional-properties=typescriptThreePlus=true,supportsES6=true,npmName=blog-api-client"
   },
   "eslintConfig": {
     "extends": [
@@ -56,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.20.2",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
