@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useBlogPosts, usePrefetchBlogPost } from "../hooks/useBlog";
-import type { ModelsBlogPostMeta } from "../lib/blog-api-client/src";
+import PlantPot from "./PlantPot";
 
 interface BlogListProps {
   onPostSelect: (slug: string) => void;
@@ -175,6 +175,8 @@ const BlogList: React.FC<BlogListProps> = ({ onPostSelect }) => {
           </div>
         )}
       </div>
+      <div className="stem w-1 h-4 bg-gray-600 my-2 mx-auto opacity-60"></div>
+      <PlantPot />
     </div>
   );
 };
