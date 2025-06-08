@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "http://blog-api.murray.kiwi".replace(/\/+$/, "");
+export const BASE_PATH = "https://blog-api.murray.kiwi".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
