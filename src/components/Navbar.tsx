@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
         <Link to="/" className="text-2xl font-semibold">
           Scott Murray
         </Link>
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex space-x-4 my-auto">
           <Link to="/" className="text-lg" data-testid="NonMobileHome">
             Home
           </Link>
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
         <div
-          className="md:hidden cursor-pointer"
+          className="md:hidden cursor-pointer my-auto"
           data-testid="MobileMenuButton"
           onClick={() => setIsOpen(!isOpen)}
         >
