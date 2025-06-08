@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useBlogPosts, usePrefetchBlogPost } from "../hooks/useBlog";
+import { Rss } from "lucide-react";
 import PlantPot from "./PlantPot";
 
 interface BlogListProps {
@@ -34,9 +35,21 @@ const BlogList: React.FC<BlogListProps> = ({ onPostSelect }) => {
     <div className="min-h-screen py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-xl text-gray-600">
-            Thoughts, insights, and updates from my journey
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <h1 className="text-xl text-gray-600">
+              Thoughts, insights, and updates from my journey
+            </h1>
+            <a
+              href="https://blog-api.murray.kiwi/rss"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+              title="Subscribe to RSS feed"
+            >
+              <Rss className="w-4 h-4" />
+              RSS
+            </a>
+          </div>
         </div>
 
         {loading ? (
