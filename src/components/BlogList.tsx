@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useBlogPosts, usePrefetchBlogPost } from "../hooks/useBlog";
 import { Rss } from "lucide-react";
