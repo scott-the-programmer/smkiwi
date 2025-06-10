@@ -22,7 +22,7 @@ module.exports = {
         "brown-500": "#8B4513",
         "green-700": "#006400",
         "blue-500": "#1E90FF",
-        "post": "#fbfbfbe5",
+        post: "#fbfbfbe5",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -81,5 +81,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require('@tailwindcss/typography')],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };

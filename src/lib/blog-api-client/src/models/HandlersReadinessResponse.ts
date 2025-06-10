@@ -12,62 +12,71 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
- * 
+ *
  * @export
  * @interface HandlersReadinessResponse
  */
 export interface HandlersReadinessResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersReadinessResponse
-     */
-    status?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersReadinessResponse
-     */
-    timestamp?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersReadinessResponse
+   */
+  status?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersReadinessResponse
+   */
+  timestamp?: string;
 }
 
 /**
  * Check if a given object implements the HandlersReadinessResponse interface.
  */
-export function instanceOfHandlersReadinessResponse(value: object): value is HandlersReadinessResponse {
-    return true;
+export function instanceOfHandlersReadinessResponse(
+  value: object,
+): value is HandlersReadinessResponse {
+  return true;
 }
 
-export function HandlersReadinessResponseFromJSON(json: any): HandlersReadinessResponse {
-    return HandlersReadinessResponseFromJSONTyped(json, false);
+export function HandlersReadinessResponseFromJSON(
+  json: any,
+): HandlersReadinessResponse {
+  return HandlersReadinessResponseFromJSONTyped(json, false);
 }
 
-export function HandlersReadinessResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): HandlersReadinessResponse {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'status': json['status'] == null ? undefined : json['status'],
-        'timestamp': json['timestamp'] == null ? undefined : json['timestamp'],
-    };
+export function HandlersReadinessResponseFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): HandlersReadinessResponse {
+  if (json == null) {
+    return json;
+  }
+  return {
+    status: json["status"] == null ? undefined : json["status"],
+    timestamp: json["timestamp"] == null ? undefined : json["timestamp"],
+  };
 }
 
-export function HandlersReadinessResponseToJSON(json: any): HandlersReadinessResponse {
-    return HandlersReadinessResponseToJSONTyped(json, false);
+export function HandlersReadinessResponseToJSON(
+  json: any,
+): HandlersReadinessResponse {
+  return HandlersReadinessResponseToJSONTyped(json, false);
 }
 
-export function HandlersReadinessResponseToJSONTyped(value?: HandlersReadinessResponse | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function HandlersReadinessResponseToJSONTyped(
+  value?: HandlersReadinessResponse | null,
+  ignoreDiscriminator: boolean = false,
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'status': value['status'],
-        'timestamp': value['timestamp'],
-    };
+  return {
+    status: value["status"],
+    timestamp: value["timestamp"],
+  };
 }
-

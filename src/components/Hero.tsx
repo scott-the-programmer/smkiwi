@@ -48,7 +48,7 @@ export default function Home() {
         </div>
       </div>
 
-      <BubbleSkillGraph/>
+      <BubbleSkillGraph />
       <Timeline />
       <PlantPot />
     </div>

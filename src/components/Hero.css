@@ -67,16 +67,18 @@
 }
 
 @keyframes left {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0 0;
   }
   50% {
-    background-position: -50vw 0; 
+    background-position: -50vw 0;
   }
 }
 
 @keyframes right {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0 0;
   }
   50% {

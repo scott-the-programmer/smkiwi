@@ -12,54 +12,59 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
- * 
+ *
  * @export
  * @interface ModelsErrorResponse
  */
 export interface ModelsErrorResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsErrorResponse
-     */
-    error?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsErrorResponse
+   */
+  error?: string;
 }
 
 /**
  * Check if a given object implements the ModelsErrorResponse interface.
  */
-export function instanceOfModelsErrorResponse(value: object): value is ModelsErrorResponse {
-    return true;
+export function instanceOfModelsErrorResponse(
+  value: object,
+): value is ModelsErrorResponse {
+  return true;
 }
 
 export function ModelsErrorResponseFromJSON(json: any): ModelsErrorResponse {
-    return ModelsErrorResponseFromJSONTyped(json, false);
+  return ModelsErrorResponseFromJSONTyped(json, false);
 }
 
-export function ModelsErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelsErrorResponse {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'error': json['error'] == null ? undefined : json['error'],
-    };
+export function ModelsErrorResponseFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): ModelsErrorResponse {
+  if (json == null) {
+    return json;
+  }
+  return {
+    error: json["error"] == null ? undefined : json["error"],
+  };
 }
 
 export function ModelsErrorResponseToJSON(json: any): ModelsErrorResponse {
-    return ModelsErrorResponseToJSONTyped(json, false);
+  return ModelsErrorResponseToJSONTyped(json, false);
 }
 
-export function ModelsErrorResponseToJSONTyped(value?: ModelsErrorResponse | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function ModelsErrorResponseToJSONTyped(
+  value?: ModelsErrorResponse | null,
+  ignoreDiscriminator: boolean = false,
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'error': value['error'],
-    };
+  return {
+    error: value["error"],
+  };
 }
-

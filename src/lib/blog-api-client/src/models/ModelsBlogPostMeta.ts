@@ -12,94 +12,100 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
- * 
+ *
  * @export
  * @interface ModelsBlogPostMeta
  */
 export interface ModelsBlogPostMeta {
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPostMeta
-     */
-    date?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPostMeta
-     */
-    excerpt?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPostMeta
-     */
-    publishDate?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPostMeta
-     */
-    slug?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ModelsBlogPostMeta
-     */
-    tags?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPostMeta
-     */
-    title?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPostMeta
+   */
+  date?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPostMeta
+   */
+  excerpt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPostMeta
+   */
+  publishDate?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPostMeta
+   */
+  slug?: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ModelsBlogPostMeta
+   */
+  tags?: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPostMeta
+   */
+  title?: string;
 }
 
 /**
  * Check if a given object implements the ModelsBlogPostMeta interface.
  */
-export function instanceOfModelsBlogPostMeta(value: object): value is ModelsBlogPostMeta {
-    return true;
+export function instanceOfModelsBlogPostMeta(
+  value: object,
+): value is ModelsBlogPostMeta {
+  return true;
 }
 
 export function ModelsBlogPostMetaFromJSON(json: any): ModelsBlogPostMeta {
-    return ModelsBlogPostMetaFromJSONTyped(json, false);
+  return ModelsBlogPostMetaFromJSONTyped(json, false);
 }
 
-export function ModelsBlogPostMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelsBlogPostMeta {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'date': json['date'] == null ? undefined : json['date'],
-        'excerpt': json['excerpt'] == null ? undefined : json['excerpt'],
-        'publishDate': json['publish_date'] == null ? undefined : json['publish_date'],
-        'slug': json['slug'] == null ? undefined : json['slug'],
-        'tags': json['tags'] == null ? undefined : json['tags'],
-        'title': json['title'] == null ? undefined : json['title'],
-    };
+export function ModelsBlogPostMetaFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): ModelsBlogPostMeta {
+  if (json == null) {
+    return json;
+  }
+  return {
+    date: json["date"] == null ? undefined : json["date"],
+    excerpt: json["excerpt"] == null ? undefined : json["excerpt"],
+    publishDate:
+      json["publish_date"] == null ? undefined : json["publish_date"],
+    slug: json["slug"] == null ? undefined : json["slug"],
+    tags: json["tags"] == null ? undefined : json["tags"],
+    title: json["title"] == null ? undefined : json["title"],
+  };
 }
 
 export function ModelsBlogPostMetaToJSON(json: any): ModelsBlogPostMeta {
-    return ModelsBlogPostMetaToJSONTyped(json, false);
+  return ModelsBlogPostMetaToJSONTyped(json, false);
 }
 
-export function ModelsBlogPostMetaToJSONTyped(value?: ModelsBlogPostMeta | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function ModelsBlogPostMetaToJSONTyped(
+  value?: ModelsBlogPostMeta | null,
+  ignoreDiscriminator: boolean = false,
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'date': value['date'],
-        'excerpt': value['excerpt'],
-        'publish_date': value['publishDate'],
-        'slug': value['slug'],
-        'tags': value['tags'],
-        'title': value['title'],
-    };
+  return {
+    date: value["date"],
+    excerpt: value["excerpt"],
+    publish_date: value["publishDate"],
+    slug: value["slug"],
+    tags: value["tags"],
+    title: value["title"],
+  };
 }
-

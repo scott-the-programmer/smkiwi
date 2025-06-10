@@ -12,124 +12,154 @@
  * Do not edit the class manually.
  */
 
-
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   ModelsBlogPost,
   ModelsErrorResponse,
   ModelsPostsResponse,
-} from '../models/index';
+} from "../models/index";
 import {
-    ModelsBlogPostFromJSON,
-    ModelsBlogPostToJSON,
-    ModelsErrorResponseFromJSON,
-    ModelsErrorResponseToJSON,
-    ModelsPostsResponseFromJSON,
-    ModelsPostsResponseToJSON,
-} from '../models/index';
+  ModelsBlogPostFromJSON,
+  ModelsBlogPostToJSON,
+  ModelsErrorResponseFromJSON,
+  ModelsErrorResponseToJSON,
+  ModelsPostsResponseFromJSON,
+  ModelsPostsResponseToJSON,
+} from "../models/index";
 
 export interface PostsSlugGetRequest {
-    slug: string;
+  slug: string;
 }
 
 /**
- * 
+ *
  */
 export class PostsApi extends runtime.BaseAPI {
+  /**
+   * Get a list of all blog posts with metadata only (no content)
+   * Get all blog posts
+   */
+  async postsGetRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<ModelsPostsResponse>> {
+    const queryParameters: any = {};
 
-    /**
-     * Get a list of all blog posts with metadata only (no content)
-     * Get all blog posts
-     */
-    async postsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelsPostsResponse>> {
-        const queryParameters: any = {};
+    const headerParameters: runtime.HTTPHeaders = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+    const response = await this.request(
+      {
+        path: `/posts`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
 
-        const response = await this.request({
-            path: `/posts`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ModelsPostsResponseFromJSON(jsonValue),
+    );
+  }
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ModelsPostsResponseFromJSON(jsonValue));
+  /**
+   * Get a list of all blog posts with metadata only (no content)
+   * Get all blog posts
+   */
+  async postsGet(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<ModelsPostsResponse> {
+    const response = await this.postsGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Get a specific blog post by its slug identifier
+   * Get a blog post by slug
+   */
+  async postsSlugGetRaw(
+    requestParameters: PostsSlugGetRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<ModelsBlogPost>> {
+    if (requestParameters["slug"] == null) {
+      throw new runtime.RequiredError(
+        "slug",
+        'Required parameter "slug" was null or undefined when calling postsSlugGet().',
+      );
     }
 
-    /**
-     * Get a list of all blog posts with metadata only (no content)
-     * Get all blog posts
-     */
-    async postsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelsPostsResponse> {
-        const response = await this.postsGetRaw(initOverrides);
-        return await response.value();
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/posts/{slug}`.replace(
+          `{${"slug"}}`,
+          encodeURIComponent(String(requestParameters["slug"])),
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ModelsBlogPostFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Get a specific blog post by its slug identifier
+   * Get a blog post by slug
+   */
+  async postsSlugGet(
+    requestParameters: PostsSlugGetRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<ModelsBlogPost> {
+    const response = await this.postsSlugGetRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Get an RSS feed of all blog posts
+   * Get RSS feed
+   */
+  async rssGetRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<string>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/rss`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<string>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
     }
+  }
 
-    /**
-     * Get a specific blog post by its slug identifier
-     * Get a blog post by slug
-     */
-    async postsSlugGetRaw(requestParameters: PostsSlugGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelsBlogPost>> {
-        if (requestParameters['slug'] == null) {
-            throw new runtime.RequiredError(
-                'slug',
-                'Required parameter "slug" was null or undefined when calling postsSlugGet().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/posts/{slug}`.replace(`{${"slug"}}`, encodeURIComponent(String(requestParameters['slug']))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ModelsBlogPostFromJSON(jsonValue));
-    }
-
-    /**
-     * Get a specific blog post by its slug identifier
-     * Get a blog post by slug
-     */
-    async postsSlugGet(requestParameters: PostsSlugGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ModelsBlogPost> {
-        const response = await this.postsSlugGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get an RSS feed of all blog posts
-     * Get RSS feed
-     */
-    async rssGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/rss`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<string>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Get an RSS feed of all blog posts
-     * Get RSS feed
-     */
-    async rssGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.rssGetRaw(initOverrides);
-        return await response.value();
-    }
-
+  /**
+   * Get an RSS feed of all blog posts
+   * Get RSS feed
+   */
+  async rssGet(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<string> {
+    const response = await this.rssGetRaw(initOverrides);
+    return await response.value();
+  }
 }

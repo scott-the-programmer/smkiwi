@@ -49,7 +49,6 @@ const SatelliteMap: React.FC = () => {
         const bounce = getRandomBounce();
         const delay = getRandomAppearance();
 
-
         return (
           <SatellitePopup
             name={satellite.name}

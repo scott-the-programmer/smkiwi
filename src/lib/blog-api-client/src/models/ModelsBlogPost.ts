@@ -12,102 +12,108 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
- * 
+ *
  * @export
  * @interface ModelsBlogPost
  */
 export interface ModelsBlogPost {
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPost
-     */
-    content?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPost
-     */
-    date?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPost
-     */
-    excerpt?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPost
-     */
-    publishDate?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPost
-     */
-    slug?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ModelsBlogPost
-     */
-    tags?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelsBlogPost
-     */
-    title?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPost
+   */
+  content?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPost
+   */
+  date?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPost
+   */
+  excerpt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPost
+   */
+  publishDate?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPost
+   */
+  slug?: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ModelsBlogPost
+   */
+  tags?: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof ModelsBlogPost
+   */
+  title?: string;
 }
 
 /**
  * Check if a given object implements the ModelsBlogPost interface.
  */
-export function instanceOfModelsBlogPost(value: object): value is ModelsBlogPost {
-    return true;
+export function instanceOfModelsBlogPost(
+  value: object,
+): value is ModelsBlogPost {
+  return true;
 }
 
 export function ModelsBlogPostFromJSON(json: any): ModelsBlogPost {
-    return ModelsBlogPostFromJSONTyped(json, false);
+  return ModelsBlogPostFromJSONTyped(json, false);
 }
 
-export function ModelsBlogPostFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelsBlogPost {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'content': json['content'] == null ? undefined : json['content'],
-        'date': json['date'] == null ? undefined : json['date'],
-        'excerpt': json['excerpt'] == null ? undefined : json['excerpt'],
-        'publishDate': json['publish_date'] == null ? undefined : json['publish_date'],
-        'slug': json['slug'] == null ? undefined : json['slug'],
-        'tags': json['tags'] == null ? undefined : json['tags'],
-        'title': json['title'] == null ? undefined : json['title'],
-    };
+export function ModelsBlogPostFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): ModelsBlogPost {
+  if (json == null) {
+    return json;
+  }
+  return {
+    content: json["content"] == null ? undefined : json["content"],
+    date: json["date"] == null ? undefined : json["date"],
+    excerpt: json["excerpt"] == null ? undefined : json["excerpt"],
+    publishDate:
+      json["publish_date"] == null ? undefined : json["publish_date"],
+    slug: json["slug"] == null ? undefined : json["slug"],
+    tags: json["tags"] == null ? undefined : json["tags"],
+    title: json["title"] == null ? undefined : json["title"],
+  };
 }
 
 export function ModelsBlogPostToJSON(json: any): ModelsBlogPost {
-    return ModelsBlogPostToJSONTyped(json, false);
+  return ModelsBlogPostToJSONTyped(json, false);
 }
 
-export function ModelsBlogPostToJSONTyped(value?: ModelsBlogPost | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function ModelsBlogPostToJSONTyped(
+  value?: ModelsBlogPost | null,
+  ignoreDiscriminator: boolean = false,
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'content': value['content'],
-        'date': value['date'],
-        'excerpt': value['excerpt'],
-        'publish_date': value['publishDate'],
-        'slug': value['slug'],
-        'tags': value['tags'],
-        'title': value['title'],
-    };
+  return {
+    content: value["content"],
+    date: value["date"],
+    excerpt: value["excerpt"],
+    publish_date: value["publishDate"],
+    slug: value["slug"],
+    tags: value["tags"],
+    title: value["title"],
+  };
 }
-

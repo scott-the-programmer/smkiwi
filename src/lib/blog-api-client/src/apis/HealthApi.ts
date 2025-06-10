@@ -12,109 +12,133 @@
  * Do not edit the class manually.
  */
 
-
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   HandlersHealthResponse,
   HandlersLivenessResponse,
   HandlersReadinessResponse,
-} from '../models/index';
+} from "../models/index";
 import {
-    HandlersHealthResponseFromJSON,
-    HandlersHealthResponseToJSON,
-    HandlersLivenessResponseFromJSON,
-    HandlersLivenessResponseToJSON,
-    HandlersReadinessResponseFromJSON,
-    HandlersReadinessResponseToJSON,
-} from '../models/index';
+  HandlersHealthResponseFromJSON,
+  HandlersHealthResponseToJSON,
+  HandlersLivenessResponseFromJSON,
+  HandlersLivenessResponseToJSON,
+  HandlersReadinessResponseFromJSON,
+  HandlersReadinessResponseToJSON,
+} from "../models/index";
 
 /**
- * 
+ *
  */
 export class HealthApi extends runtime.BaseAPI {
+  /**
+   * Get the health status of the API including uptime and version
+   * Health check
+   */
+  async healthGetRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<HandlersHealthResponse>> {
+    const queryParameters: any = {};
 
-    /**
-     * Get the health status of the API including uptime and version
-     * Health check
-     */
-    async healthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HandlersHealthResponse>> {
-        const queryParameters: any = {};
+    const headerParameters: runtime.HTTPHeaders = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+    const response = await this.request(
+      {
+        path: `/health`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
 
-        const response = await this.request({
-            path: `/health`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      HandlersHealthResponseFromJSON(jsonValue),
+    );
+  }
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => HandlersHealthResponseFromJSON(jsonValue));
-    }
+  /**
+   * Get the health status of the API including uptime and version
+   * Health check
+   */
+  async healthGet(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<HandlersHealthResponse> {
+    const response = await this.healthGetRaw(initOverrides);
+    return await response.value();
+  }
 
-    /**
-     * Get the health status of the API including uptime and version
-     * Health check
-     */
-    async healthGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HandlersHealthResponse> {
-        const response = await this.healthGetRaw(initOverrides);
-        return await response.value();
-    }
+  /**
+   * Check if the API is alive and responding
+   * Liveness check
+   */
+  async healthLiveGetRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<HandlersLivenessResponse>> {
+    const queryParameters: any = {};
 
-    /**
-     * Check if the API is alive and responding
-     * Liveness check
-     */
-    async healthLiveGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HandlersLivenessResponse>> {
-        const queryParameters: any = {};
+    const headerParameters: runtime.HTTPHeaders = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+    const response = await this.request(
+      {
+        path: `/health/live`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
 
-        const response = await this.request({
-            path: `/health/live`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      HandlersLivenessResponseFromJSON(jsonValue),
+    );
+  }
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => HandlersLivenessResponseFromJSON(jsonValue));
-    }
+  /**
+   * Check if the API is alive and responding
+   * Liveness check
+   */
+  async healthLiveGet(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<HandlersLivenessResponse> {
+    const response = await this.healthLiveGetRaw(initOverrides);
+    return await response.value();
+  }
 
-    /**
-     * Check if the API is alive and responding
-     * Liveness check
-     */
-    async healthLiveGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HandlersLivenessResponse> {
-        const response = await this.healthLiveGetRaw(initOverrides);
-        return await response.value();
-    }
+  /**
+   * Check if the API is ready to serve requests
+   * Readiness check
+   */
+  async healthReadyGetRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<HandlersReadinessResponse>> {
+    const queryParameters: any = {};
 
-    /**
-     * Check if the API is ready to serve requests
-     * Readiness check
-     */
-    async healthReadyGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HandlersReadinessResponse>> {
-        const queryParameters: any = {};
+    const headerParameters: runtime.HTTPHeaders = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+    const response = await this.request(
+      {
+        path: `/health/ready`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
 
-        const response = await this.request({
-            path: `/health/ready`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      HandlersReadinessResponseFromJSON(jsonValue),
+    );
+  }
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => HandlersReadinessResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Check if the API is ready to serve requests
-     * Readiness check
-     */
-    async healthReadyGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HandlersReadinessResponse> {
-        const response = await this.healthReadyGetRaw(initOverrides);
-        return await response.value();
-    }
-
+  /**
+   * Check if the API is ready to serve requests
+   * Readiness check
+   */
+  async healthReadyGet(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<HandlersReadinessResponse> {
+    const response = await this.healthReadyGetRaw(initOverrides);
+    return await response.value();
+  }
 }

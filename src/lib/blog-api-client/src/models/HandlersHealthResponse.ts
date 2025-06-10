@@ -12,86 +12,95 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
- * 
+ *
  * @export
  * @interface HandlersHealthResponse
  */
 export interface HandlersHealthResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersHealthResponse
-     */
-    service?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersHealthResponse
-     */
-    status?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersHealthResponse
-     */
-    timestamp?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersHealthResponse
-     */
-    uptime?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HandlersHealthResponse
-     */
-    version?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersHealthResponse
+   */
+  service?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersHealthResponse
+   */
+  status?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersHealthResponse
+   */
+  timestamp?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersHealthResponse
+   */
+  uptime?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof HandlersHealthResponse
+   */
+  version?: string;
 }
 
 /**
  * Check if a given object implements the HandlersHealthResponse interface.
  */
-export function instanceOfHandlersHealthResponse(value: object): value is HandlersHealthResponse {
-    return true;
+export function instanceOfHandlersHealthResponse(
+  value: object,
+): value is HandlersHealthResponse {
+  return true;
 }
 
-export function HandlersHealthResponseFromJSON(json: any): HandlersHealthResponse {
-    return HandlersHealthResponseFromJSONTyped(json, false);
+export function HandlersHealthResponseFromJSON(
+  json: any,
+): HandlersHealthResponse {
+  return HandlersHealthResponseFromJSONTyped(json, false);
 }
 
-export function HandlersHealthResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): HandlersHealthResponse {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'service': json['service'] == null ? undefined : json['service'],
-        'status': json['status'] == null ? undefined : json['status'],
-        'timestamp': json['timestamp'] == null ? undefined : json['timestamp'],
-        'uptime': json['uptime'] == null ? undefined : json['uptime'],
-        'version': json['version'] == null ? undefined : json['version'],
-    };
+export function HandlersHealthResponseFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): HandlersHealthResponse {
+  if (json == null) {
+    return json;
+  }
+  return {
+    service: json["service"] == null ? undefined : json["service"],
+    status: json["status"] == null ? undefined : json["status"],
+    timestamp: json["timestamp"] == null ? undefined : json["timestamp"],
+    uptime: json["uptime"] == null ? undefined : json["uptime"],
+    version: json["version"] == null ? undefined : json["version"],
+  };
 }
 
-export function HandlersHealthResponseToJSON(json: any): HandlersHealthResponse {
-    return HandlersHealthResponseToJSONTyped(json, false);
+export function HandlersHealthResponseToJSON(
+  json: any,
+): HandlersHealthResponse {
+  return HandlersHealthResponseToJSONTyped(json, false);
 }
 
-export function HandlersHealthResponseToJSONTyped(value?: HandlersHealthResponse | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function HandlersHealthResponseToJSONTyped(
+  value?: HandlersHealthResponse | null,
+  ignoreDiscriminator: boolean = false,
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'service': value['service'],
-        'status': value['status'],
-        'timestamp': value['timestamp'],
-        'uptime': value['uptime'],
-        'version': value['version'],
-    };
+  return {
+    service: value["service"],
+    status: value["status"],
+    timestamp: value["timestamp"],
+    uptime: value["uptime"],
+    version: value["version"],
+  };
 }
-

@@ -12,70 +12,81 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { ModelsBlogPostMeta } from './ModelsBlogPostMeta';
+import { mapValues } from "../runtime";
+import type { ModelsBlogPostMeta } from "./ModelsBlogPostMeta";
 import {
-    ModelsBlogPostMetaFromJSON,
-    ModelsBlogPostMetaFromJSONTyped,
-    ModelsBlogPostMetaToJSON,
-    ModelsBlogPostMetaToJSONTyped,
-} from './ModelsBlogPostMeta';
+  ModelsBlogPostMetaFromJSON,
+  ModelsBlogPostMetaFromJSONTyped,
+  ModelsBlogPostMetaToJSON,
+  ModelsBlogPostMetaToJSONTyped,
+} from "./ModelsBlogPostMeta";
 
 /**
- * 
+ *
  * @export
  * @interface ModelsPostsResponse
  */
 export interface ModelsPostsResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof ModelsPostsResponse
-     */
-    count?: number;
-    /**
-     * 
-     * @type {Array<ModelsBlogPostMeta>}
-     * @memberof ModelsPostsResponse
-     */
-    posts?: Array<ModelsBlogPostMeta>;
+  /**
+   *
+   * @type {number}
+   * @memberof ModelsPostsResponse
+   */
+  count?: number;
+  /**
+   *
+   * @type {Array<ModelsBlogPostMeta>}
+   * @memberof ModelsPostsResponse
+   */
+  posts?: Array<ModelsBlogPostMeta>;
 }
 
 /**
  * Check if a given object implements the ModelsPostsResponse interface.
  */
-export function instanceOfModelsPostsResponse(value: object): value is ModelsPostsResponse {
-    return true;
+export function instanceOfModelsPostsResponse(
+  value: object,
+): value is ModelsPostsResponse {
+  return true;
 }
 
 export function ModelsPostsResponseFromJSON(json: any): ModelsPostsResponse {
-    return ModelsPostsResponseFromJSONTyped(json, false);
+  return ModelsPostsResponseFromJSONTyped(json, false);
 }
 
-export function ModelsPostsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelsPostsResponse {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'count': json['count'] == null ? undefined : json['count'],
-        'posts': json['posts'] == null ? undefined : ((json['posts'] as Array<any>).map(ModelsBlogPostMetaFromJSON)),
-    };
+export function ModelsPostsResponseFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): ModelsPostsResponse {
+  if (json == null) {
+    return json;
+  }
+  return {
+    count: json["count"] == null ? undefined : json["count"],
+    posts:
+      json["posts"] == null
+        ? undefined
+        : (json["posts"] as Array<any>).map(ModelsBlogPostMetaFromJSON),
+  };
 }
 
 export function ModelsPostsResponseToJSON(json: any): ModelsPostsResponse {
-    return ModelsPostsResponseToJSONTyped(json, false);
+  return ModelsPostsResponseToJSONTyped(json, false);
 }
 
-export function ModelsPostsResponseToJSONTyped(value?: ModelsPostsResponse | null, ignoreDiscriminator: boolean = false): any {
-    if (value == null) {
-        return value;
-    }
+export function ModelsPostsResponseToJSONTyped(
+  value?: ModelsPostsResponse | null,
+  ignoreDiscriminator: boolean = false,
+): any {
+  if (value == null) {
+    return value;
+  }
 
-    return {
-        
-        'count': value['count'],
-        'posts': value['posts'] == null ? undefined : ((value['posts'] as Array<any>).map(ModelsBlogPostMetaToJSON)),
-    };
+  return {
+    count: value["count"],
+    posts:
+      value["posts"] == null
+        ? undefined
+        : (value["posts"] as Array<any>).map(ModelsBlogPostMetaToJSON),
+  };
 }
-

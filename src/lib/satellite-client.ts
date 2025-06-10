@@ -64,9 +64,7 @@ export class SatelliteClient {
       SatelliteType.Experimental,
       SatelliteType.DisasterMonitoring,
     ];
-    const promises = types.map((endpoint) =>
-      this.fetchSatellites(endpoint),
-    );
+    const promises = types.map((endpoint) => this.fetchSatellites(endpoint));
     const results = await Promise.all(promises);
     return results.flat();
   }
