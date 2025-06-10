@@ -114,81 +114,83 @@ const BlogList: React.FC<BlogListProps> = ({ onPostSelect }) => {
             </div>
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="max-w-3xl mx-auto">
             {posts.map((post, index) => (
-              <article
-                key={post.slug || index}
-                className="bg-post rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                onClick={() => post.slug && navigate(`/blog/${post.slug}`)}
-                onMouseEnter={() => post.slug && prefetchBlogPost(post.slug)}
-              >
-                <div className="p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div className="flex-1">
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                        {post.title || "Untitled Post"}
-                      </h2>
+              <>
+                <article
+                  key={post.slug || index}
+                  className="bg-post rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                  onClick={() => post.slug && navigate(`/blog/${post.slug}`)}
+                  onMouseEnter={() => post.slug && prefetchBlogPost(post.slug)}
+                >
+                  <div className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                      <div className="flex-1">
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                          {post.title || "Untitled Post"}
+                        </h2>
 
-                      {post.excerpt && (
-                        <p className="text-gray-600 mb-3 line-clamp-2">
-                          {post.excerpt}
-                        </p>
-                      )}
+                        {post.excerpt && (
+                          <p className="text-gray-600 mb-3 line-clamp-2">
+                            {post.excerpt}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex flex-col sm:items-end gap-2 sm:min-w-0 sm:flex-shrink-0">
+                        <time
+                          dateTime={post.publishDate}
+                          className="text-sm text-gray-500"
+                        >
+                          {formatDate(post.publishDate)}
+                        </time>
+
+                        {post.tags && post.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 sm:justify-end">
+                            {post.tags.slice(0, 3).map((tag, tagIndex) => (
+                              <span
+                                key={tagIndex}
+                                className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                            {post.tags.length > 3 && (
+                              <span className="text-xs text-gray-500">
+                                +{post.tags.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="flex flex-col sm:items-end gap-2 sm:min-w-0 sm:flex-shrink-0">
-                      <time
-                        dateTime={post.publishDate}
-                        className="text-sm text-gray-500"
-                      >
-                        {formatDate(post.publishDate)}
-                      </time>
-
-                      {post.tags && post.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 sm:justify-end">
-                          {post.tags.slice(0, 3).map((tag, tagIndex) => (
-                            <span
-                              key={tagIndex}
-                              className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                          {post.tags.length > 3 && (
-                            <span className="text-xs text-gray-500">
-                              +{post.tags.length - 3} more
-                            </span>
-                          )}
-                        </div>
-                      )}
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <div className="flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        Read more
+                        <svg
+                          className="w-4 h-4 ml-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <div className="flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
-                      Read more
-                      <svg
-                        className="w-4 h-4 ml-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </article>
+                </article>
+                <div className="stem w-1 h-4 bg-gray-600 my-2 mx-auto opacity-60"></div>
+              </>
             ))}
           </div>
         )}
       </div>
-      <div className="stem w-1 h-4 bg-gray-600 my-2 mx-auto opacity-60"></div>
       <PlantPot />
     </div>
   );
