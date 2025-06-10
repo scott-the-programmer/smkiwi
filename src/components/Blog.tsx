@@ -25,7 +25,7 @@ const Blog = () => {
     return <BlogPost slug={selectedPostSlug} onBack={handleBackToList} />;
   }
 
-  return <BlogList onPostSelect={handlePostSelect} />;
+  return <BlogList />;
 };
 
 export default Blog;
