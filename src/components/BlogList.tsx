@@ -34,6 +34,7 @@ const BlogList = () => {
             <h1 className="text-xl text-gray-600">
               Thoughts, insights, and updates from my journey
             </h1>
+
             <a
               href="https://blog-api.murray.kiwi/rss"
               target="_blank"
@@ -45,6 +46,9 @@ const BlogList = () => {
               RSS
             </a>
           </div>
+          <h2 className="text-xs text-gray-600">
+            * Obligatory disclaimer of these thoughts being my own yada yada
+          </h2>
         </div>
 
         {loading ? (
