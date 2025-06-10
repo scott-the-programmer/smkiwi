@@ -4,11 +4,7 @@ import { useBlogPosts, usePrefetchBlogPost } from "../hooks/useBlog";
 import { Rss } from "lucide-react";
 import PlantPot from "./PlantPot";
 
-interface BlogListProps {
-  onPostSelect: (slug: string) => void;
-}
-
-const BlogList: React.FC<BlogListProps> = ({ onPostSelect }) => {
+const BlogList = () => {
   const navigate = useNavigate();
   const prefetchBlogPost = usePrefetchBlogPost();
   const {
