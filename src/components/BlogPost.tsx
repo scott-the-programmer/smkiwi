@@ -42,7 +42,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ slug, onBack }) => {
 
   return (
     <div className="min-h-screen py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => navigate("/blog")}
           className="mb-6 inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md"
@@ -121,7 +121,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ slug, onBack }) => {
                 </p>
               )}
 
-              <div className="prose prose-lg max-w-none prose-headings:text-lg prose-p:text-sm prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-900 prose-code:text-pink-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded">
+              <div className="prose prose-p:text-base prose-lg max-w-none prose-headings:text-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-900 prose-code:text-pink-600 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded">
                 {post.content ? (
                   <Markdown remarkPlugins={[remarkGfm]}>
                     {post.content}
