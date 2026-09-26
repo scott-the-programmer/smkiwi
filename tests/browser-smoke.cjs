@@ -10,12 +10,15 @@ const assert = require('node:assert/strict');
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(process.env.BASE_URL || 'http://localhost:8080');
     const pane = name => page.getByRole('region', { name, exact: true });
+    const window = id => page.locator(`.app-window[data-window-id="${id}"]`);
     const launch = async name => {
       await page.getByRole('button', { name: 'Applications', exact: true }).click();
       await page.getByRole('navigation', { name: 'Application menu' }).getByRole('button', { name: new RegExp(name) }).click();
     };
     const tiles = page.locator('.app-window:not([hidden])');
     async function nonOverlapping(expected) {
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+      await page.waitForFunction(() => !document.querySelector('.tile-moving'));
       assert.equal(await tiles.count(), expected);
       const boxes = await tiles.evaluateAll(nodes => nodes.map(n => {
         const r = n.getBoundingClientRect();
@@ -30,12 +33,12 @@ const assert = require('node:assert/strict');
     await page.getByRole('heading', { name: 'Cloud Whisperer.' }).waitFor();
     await pane('About Me').getByText('Terraform', { exact: true }).waitFor();
     let boxes = await nonOverlapping(3);
-    assert(boxes[0].width > boxes[1].width);
+    assert(Math.abs(boxes[0].width - boxes[1].width) <= 1, 'Tile columns should have equal widths');
     assert.equal(boxes[1].x, boxes[2].x);
     assert.equal(await page.getByRole('button', { name: /Columns/ }).count(), 0);
     assert.equal(await page.locator('.workspace-hint').count(), 0);
 
-    const clock = pane('Fractal Clock').first();
+    const clock = window(2);
     await clock.getByRole('img', { name: /Fractal clock:/ }).waitFor();
     assert.equal(await clock.locator('.fractal-layer').count(), 10);
     const colors = await clock.locator('.fractal-layer').evaluateAll(nodes => nodes.slice(0, 5).map(n => getComputedStyle(n).stroke));
@@ -56,7 +59,7 @@ const assert = require('node:assert/strict');
 
     await launch('Fractal Clock');
     await nonOverlapping(4);
-    const secondClock = pane('Fractal Clock').nth(1);
+    const secondClock = window(4); // new windows become master, so DOM order changes
     await secondClock.locator('summary').click();
     assert.equal(await secondClock.getByRole('slider', { name: /Depth/ }).inputValue(), '9');
     await secondClock.getByRole('slider', { name: /Depth/ }).fill('3');
@@ -79,13 +82,59 @@ const assert = require('node:assert/strict');
     await pane('Terminal').getByText('first instance', { exact: true }).waitFor();
     await launch('Terminal');
     await nonOverlapping(4);
-    const secondTerminal = pane('Terminal').nth(1);
+    const secondTerminal = window(5);
     await secondTerminal.getByRole('textbox').fill('echo second instance');
     await secondTerminal.getByRole('textbox').press('Enter');
     await secondTerminal.getByText('second instance', { exact: true }).waitFor();
-    assert.equal(await pane('Terminal').first().getByText('second instance', { exact: true }).count(), 0);
+    assert.equal(await window(3).getByText('second instance', { exact: true }).count(), 0);
     await secondTerminal.getByRole('button', { name: 'Close', exact: true }).click();
     await pane('Terminal').getByText('first instance', { exact: true }).waitFor();
+    await nonOverlapping(3);
+
+    await launch('Forward–Backward Lab');
+    await nonOverlapping(4);
+    const algorithm = pane('Forward–Backward Lab');
+    await algorithm.getByRole('heading', { name: 'What was the weather?' }).waitFor();
+    await algorithm.getByRole('button', { name: 'Posterior γ' }).click();
+    await algorithm.getByRole('button', { name: /Observation 1: Walk/ }).click();
+    await algorithm.getByRole('button', { name: /Observation 1: Shop/ }).waitFor();
+    assert.match(await algorithm.getByText(/Sequence likelihood:/).innerText(), /0\.0/);
+    assert.equal(await algorithm.getByRole('link', { name: 'Algorithm ↗' }).getAttribute('href'), 'https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm');
+    await algorithm.getByRole('button', { name: 'Close', exact: true }).click();
+    await nonOverlapping(3);
+
+
+    // ⌘K / Ctrl+K command palette: open, filter, keyboard-run, and Escape.
+    await page.locator('body').click({ position: { x: 5, y: 500 } });
+    await page.keyboard.press('Control+k');
+    const palette = page.getByRole('dialog', { name: 'Command palette' });
+    const search = palette.getByRole('textbox', { name: 'Search commands' });
+    await search.waitFor();
+    assert.equal(await search.evaluate(n => document.activeElement === n), true, 'Palette input should be focused');
+    assert.equal(await palette.getByRole('button').count(), 3 + 5);
+    await search.fill('cloud invoice');
+    assert.equal(await palette.getByRole('button').count(), 1);
+    await page.keyboard.press('Enter');
+    await palette.waitFor({ state: 'hidden' });
+    await nonOverlapping(4);
+    await pane('Cloud Invoice Simulator').waitFor();
+    await pane('Cloud Invoice Simulator').getByRole('button', { name: 'Minimize', exact: true }).click();
+    await nonOverlapping(3);
+    await page.keyboard.press('Control+k');
+    await search.fill('switch invoice');
+    await palette.getByRole('button', { name: /Switch to Cloud Invoice Simulator #\d+/ }).waitFor();
+    await page.keyboard.press('Enter');
+    await nonOverlapping(4);
+    await page.keyboard.press('Control+k');
+    await search.fill('zzz');
+    await palette.getByText('No matching commands.').waitFor();
+    await page.keyboard.press('Escape');
+    await palette.waitFor({ state: 'hidden' });
+    await page.getByRole('button', { name: 'Open command palette' }).click();
+    await search.waitFor();
+    await page.keyboard.press('Control+k');
+    await palette.waitFor({ state: 'hidden' });
+    await pane('Cloud Invoice Simulator').getByRole('button', { name: 'Close', exact: true }).click();
     await nonOverlapping(3);
 
     const ids = await page.locator('[id]').evaluateAll(nodes => nodes.map(n => n.id));
@@ -99,6 +148,6 @@ const assert = require('node:assert/strict');
     await launch('About Me');
     await nonOverlapping(1);
     assert.deepEqual(errors, []);
-    console.log('PASS: master/stack, independent duplicate clocks and terminals, restore, zoom, close, clock animation/settings/credit, mobile, empty workspace');
+    console.log('PASS: command palette, master/stack, independent duplicate clocks and terminals, restore, zoom, close, clock animation/settings/credit, mobile, empty workspace');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

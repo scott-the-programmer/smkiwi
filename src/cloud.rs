@@ -133,6 +133,11 @@ pub fn CloudInvoice(active: ReadOnlySignal<bool>, instance: u64) -> Element {
         (state.incoming() / CAPACITY).clamp(2, 8)
     };
     let queued_packets = state.queue.len().div_ceil(CAPACITY).min(18);
+    let routed_packets = if state.incoming() == 0 || online == 0 {
+        0
+    } else {
+        state.incoming().div_ceil(online * CAPACITY).clamp(1, 3)
+    };
     let flow_duration = 1_500usize.saturating_sub(state.incoming().min(1_000));
     let points = state
         .history
@@ -168,18 +173,35 @@ pub fn CloudInvoice(active: ReadOnlySignal<bool>, instance: u64) -> Element {
                         }
                     }
                     div { class: "cloud-rack",
-                        div { class: "cloud-rack-heading", strong { "Server cupboard" } span { "{online}/6 online · {capacity} req/s" } }
-                        for (index, &powered) in state.servers.iter().enumerate() {
-                            button { key: "{index}", class: if powered { "cloud-server powered" } else { "cloud-server" },
-                                aria_label: "Server {index + 1} power", aria_pressed: powered,
-                                onclick: move |_| { let mut state = sim.write(); state.servers[index] = !state.servers[index]; },
-                                span { class: "cloud-led" }
-                                strong { "scott-cloud-0{index + 1}" }
-                                span { class: "cloud-vents", aria_hidden: "true", "▥ ▥ ▥" }
-                                span { class: "cloud-power", if powered { "Online ⏻" } else { "Offline ⏻" } }
+                        div { class: "cloud-rack-heading", strong { "Live request routing" } span { "{online}/6 nodes online · {capacity} req/s" } }
+                        div { class: if paused() { "cloud-node-map paused" } else { "cloud-node-map" },
+                            for (index, &powered) in state.servers.iter().enumerate() {
+                                div { key: "route-{index}", class: if powered { "cloud-node-route active" } else { "cloud-node-route" },
+                                    div { class: "cloud-route-lane", aria_hidden: "true",
+                                        span { class: "cloud-route-origin", "IN" }
+                                        if powered {
+                                            for packet in 0..routed_packets {
+                                                span {
+                                                    key: "route-{index}-packet-{packet}",
+                                                    class: "cloud-routed-request",
+                                                    style: "--flow-duration:{flow_duration}ms;--flow-delay:-{packet * 260 + index * 90}ms",
+                                                }
+                                            }
+                                        }
+                                    }
+                                    button { class: if powered { "cloud-server powered" } else { "cloud-server" },
+                                        aria_label: if powered { "Server {index + 1} power; requests are routed here" } else { "Server {index + 1} power; requests are not routed here" },
+                                        aria_pressed: powered,
+                                        onclick: move |_| { let mut state = sim.write(); state.servers[index] = !state.servers[index]; },
+                                        span { class: "cloud-led" }
+                                        strong { "scott-cloud-0{index + 1}" }
+                                        span { class: "cloud-vents", aria_hidden: "true", "▥ ▥ ▥" }
+                                        span { class: "cloud-power", if powered { "Online ⏻" } else { "Offline ⏻" } }
+                                    }
+                                }
                             }
                         }
-                        p { "Click a server to power it on or pull the plug. Each handles 40 req/s." }
+                        p { "Every moving square is a request being routed to an online node. Click a node to power it on or pull the plug; each handles 40 req/s." }
                     }
                     div { class: if paused() { "cloud-flow paused" } else { "cloud-flow" },
                         div { class: "cloud-flow-heading",
@@ -220,24 +242,11 @@ pub fn CloudInvoice(active: ReadOnlySignal<bool>, instance: u64) -> Element {
                     div { class: "cloud-queue",
                         div { strong { "Queue history" } span { "Oldest {oldest}s / 10s timeout" } }
                         svg { view_box: "0 0 300 70", role: "img", "aria-label": "Queued requests over the last 60 simulated seconds, fixed scale zero to 6000", preserve_aspect_ratio: "none",
-                            line { x1: "0", x2: "300", y1: "64", y2: "64", stroke: "#c5d9e7" }
-                            polyline { points: "{points}", fill: "none", stroke: "#2176ae", stroke_width: "2", vector_effect: "non-scaling-stroke" }
+                            line { x1: "0", x2: "300", y1: "64", y2: "64", style: "stroke: var(--line)" }
+                            polyline { points: "{points}", fill: "none", style: "stroke: var(--bright-teal-blue)", stroke_width: "2", vector_effect: "non-scaling-stroke" }
                         }
                         div { class: "cloud-counters", span { "{state.last_served} served/s" } span { "{state.last_dropped} dropped/s" } }
                     }
-                }
-                aside { class: "cloud-receipt", aria_label: "Fictional cloud invoice",
-                    div { class: "cloud-receipt-heading", span { "☁" } h3 { "Cloud Nine-ish" } p { "Invoice for services you clicked" } }
-                    dl {
-                        div { dt { "Compute" } dd { "{compute}" } }
-                        div { dt { "Requests" } dd { "{request_cost}" } }
-                        div { dt { "Emotional support" } dd { "Not included" } }
-                        div { class: "cloud-total", dt { "Total so far" } dd { "{total}" } }
-                    }
-                    p { class: "cloud-run-rate", strong { "{hourly}/hour" } " at current traffic and capacity" }
-                    div { class: "cloud-totals", span { "{state.served} served" } span { "{state.dropped} lost" } }
-                    p { class: "cloud-fiction", "Fictional USD. $0.002/server-second + $0.00002/completed request. Powered-off servers are free. No real charges." }
-                    p { class: "cloud-finance", "{state.message()}" }
                 }
             }
             div { class: "cloud-toolbar",
@@ -245,9 +254,18 @@ pub fn CloudInvoice(active: ReadOnlySignal<bool>, instance: u64) -> Element {
                 button { onclick: move |_| { sim.set(Simulation::default()); paused.set(false); }, "Reset simulation" }
                 span { "Rust / WASM · runs locally" }
             }
-            details { class: "cloud-explainer", summary { "Inside the simulation" }
-                p { "Rust advances one simulated second every 250 ms. Requests enter a first-in, first-out queue; online servers complete up to 40 each per step. Requests waiting 10 seconds time out. Queue capacity is 6,000; overflow is dropped. Compute is billed even when idle. The hourly estimate assumes steady traffic and ignores queued work." }
-                p { "The chart shows the last 60 steps on a fixed 0–6,000 scale. Minimizing this window or zooming another pauses it; closing resets it. Background browser throttling can slow the simulation." }
+            aside { class: "cloud-receipt", aria_label: "Fictional cloud invoice",
+                div { class: "cloud-receipt-heading", span { "☁" } h3 { "Cloud Nine-ish" } p { "Invoice for services you clicked" } }
+                dl {
+                    div { dt { "Compute" } dd { "{compute}" } }
+                    div { dt { "Requests" } dd { "{request_cost}" } }
+                    div { dt { "Emotional support" } dd { "Not included" } }
+                    div { class: "cloud-total", dt { "Total so far" } dd { "{total}" } }
+                }
+                p { class: "cloud-run-rate", strong { "{hourly}/hour" } " at current traffic and capacity" }
+                div { class: "cloud-totals", span { "{state.served} served" } span { "{state.dropped} lost" } }
+                p { class: "cloud-fiction", "Fictional USD. $0.002/server-second + $0.00002/completed request. Powered-off servers are free. No real charges." }
+                p { class: "cloud-finance", "{state.message()}" }
             }
         }
     }

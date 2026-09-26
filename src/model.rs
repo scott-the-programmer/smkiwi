@@ -4,15 +4,23 @@ pub enum AppId {
     Clock,
     Terminal,
     Cloud,
+    ForwardBackward,
 }
 impl AppId {
-    pub const ALL: [Self; 4] = [Self::About, Self::Clock, Self::Terminal, Self::Cloud];
+    pub const ALL: [Self; 5] = [
+        Self::About,
+        Self::Clock,
+        Self::Terminal,
+        Self::Cloud,
+        Self::ForwardBackward,
+    ];
     pub fn name(self) -> &'static str {
         match self {
             Self::About => "About Me",
             Self::Clock => "Fractal Clock",
             Self::Terminal => "Terminal",
             Self::Cloud => "Cloud Invoice Simulator",
+            Self::ForwardBackward => "Forward–Backward Lab",
         }
     }
     pub fn icon(self) -> &'static str {
@@ -21,6 +29,7 @@ impl AppId {
             Self::Clock => "◷",
             Self::Terminal => ">_",
             Self::Cloud => "☁",
+            Self::ForwardBackward => "αβ",
         }
     }
     pub fn description(self) -> &'static str {
@@ -29,6 +38,7 @@ impl AppId {
             Self::Clock => "Local time, recursively drawn",
             Self::Terminal => "A small, sandboxed shell",
             Self::Cloud => "Cloud traffic and fictional bills",
+            Self::ForwardBackward => "Hidden Markov model visualizer",
         }
     }
 }
@@ -57,6 +67,7 @@ impl Default for Desktop {
         for app in [AppId::About, AppId::Clock, AppId::Terminal] {
             desktop.open(app);
         }
+        desktop.windows.reverse();
         desktop.focused = Some(1);
         desktop
     }
@@ -65,11 +76,14 @@ impl Desktop {
     pub fn open(&mut self, app: AppId) -> WindowId {
         let id = self.next_id;
         self.next_id += 1;
-        self.windows.push(Window {
-            id,
-            app,
-            minimized: false,
-        });
+        self.windows.insert(
+            0,
+            Window {
+                id,
+                app,
+                minimized: false,
+            },
+        );
         self.zoomed = None;
         self.focused = Some(id);
         id
@@ -126,6 +140,68 @@ impl Desktop {
         self.focused = Some(id);
     }
 }
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Command {
+    Launch(AppId),
+    Switch(WindowId, AppId),
+}
+impl Command {
+    pub fn title(self) -> String {
+        match self {
+            Self::Launch(app) => format!("Open {}", app.name()),
+            Self::Switch(id, app) => format!("Switch to {} #{id}", app.name()),
+        }
+    }
+    pub fn detail(self) -> &'static str {
+        match self {
+            Self::Launch(_) => "New window",
+            Self::Switch(..) => "Focus existing window",
+        }
+    }
+    pub fn icon(self) -> &'static str {
+        match self {
+            Self::Launch(app) | Self::Switch(_, app) => app.icon(),
+        }
+    }
+    fn haystack(self) -> String {
+        match self {
+            Self::Launch(app) => format!("open launch new {} {}", app.name(), app.description()),
+            Self::Switch(id, app) => format!(
+                "switch focus restore window {} #{id} {}",
+                app.name(),
+                app.description()
+            ),
+        }
+    }
+}
+impl Desktop {
+    /// Commands for the ⌘K palette: existing windows first, then launchable apps.
+    /// Every whitespace-separated word in `query` must appear (case-insensitively) in a command.
+    pub fn commands(&self, query: &str) -> Vec<Command> {
+        let words: Vec<String> = query
+            .split_whitespace()
+            .map(|word| word.to_lowercase())
+            .collect();
+        self.windows
+            .iter()
+            .map(|w| Command::Switch(w.id, w.app))
+            .chain(AppId::ALL.into_iter().map(Command::Launch))
+            .filter(|command| {
+                let haystack = command.haystack().to_lowercase();
+                words.iter().all(|word| haystack.contains(word.as_str()))
+            })
+            .collect()
+    }
+    pub fn run(&mut self, command: Command) {
+        match command {
+            Command::Launch(app) => {
+                self.open(app);
+            }
+            Command::Switch(id, _) => self.restore(id),
+        }
+    }
+}
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -143,6 +219,15 @@ mod tests {
         assert!(d.visible().contains(&id));
         d.close(2);
         assert!(d.windows.iter().any(|w| w.id == id));
+    }
+    #[test]
+    fn newly_opened_window_becomes_master() {
+        let mut d = Desktop::default();
+        let previous_master = d.visible()[0];
+        let id = d.open(AppId::Cloud);
+        let visible = d.visible();
+        assert_eq!(visible[0], id);
+        assert_eq!(visible[1], previous_master);
     }
     #[test]
     fn restore_does_not_create_a_window() {
@@ -182,5 +267,38 @@ mod tests {
         let id = d.open(AppId::About);
         assert_eq!(id, 4);
         assert_eq!(d.visible(), vec![id]);
+    }
+
+    #[test]
+    fn palette_lists_windows_then_apps() {
+        let d = Desktop::default();
+        let commands = d.commands("");
+        assert_eq!(commands.len(), 3 + AppId::ALL.len());
+        assert_eq!(commands[0], Command::Switch(1, AppId::About));
+        assert_eq!(commands[3], Command::Launch(AppId::About));
+    }
+    #[test]
+    fn palette_filters_case_insensitively_by_every_word() {
+        let d = Desktop::default();
+        assert_eq!(
+            d.commands("CLOCK open"),
+            vec![Command::Launch(AppId::Clock)]
+        );
+        assert_eq!(
+            d.commands("switch term"),
+            vec![Command::Switch(3, AppId::Terminal)]
+        );
+        assert!(d.commands("nonexistent").is_empty());
+    }
+    #[test]
+    fn running_commands_opens_or_restores() {
+        let mut d = Desktop::default();
+        d.minimize(2);
+        d.run(Command::Switch(2, AppId::Clock));
+        assert_eq!(d.windows.len(), 3);
+        assert_eq!(d.focused, Some(2));
+        d.run(Command::Launch(AppId::Cloud));
+        assert_eq!(d.windows.len(), 4);
+        assert_eq!(d.visible()[0], 4);
     }
 }

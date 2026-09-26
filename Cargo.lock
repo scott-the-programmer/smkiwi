@@ -1255,6 +1255,7 @@ dependencies = [
  "dioxus",
  "gloo-timers",
  "js-sys",
+ "wasm-bindgen",
 ]
 
 [[package]]

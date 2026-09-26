@@ -7,6 +7,7 @@ edition = "2021"
 dioxus = { version = "0.6.3", features = ["web"] }
 gloo-timers = { version = "0.3", features = ["futures"] }
 js-sys = "0.3"
+wasm-bindgen = "0.2"
 
 [profile.release]
 lto = true

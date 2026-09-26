@@ -1,8 +1,10 @@
 # Scott OS
 
-Scott Murray's personal website as a **tiling window manager**, built with Rust + Dioxus and compiled to WebAssembly. Static files, no backend, no real system access.
+My personal website, built as a tiling window manager. I wrote it in Rust with [Dioxus](https://dioxuslabs.com), compiled it to WebAssembly, and serve it as static files. There is no backend and no real system access.
 
-## Run
+![Scott OS workspace: About Me, Fractal Clock, and Terminal tiled side by side](docs/screenshot.png)
+
+## Run it locally
 
 ```sh
 rustup target add wasm32-unknown-unknown
@@ -10,26 +12,32 @@ cargo install trunk --version 0.21.14 --locked
 trunk serve
 ```
 
-Open **http://localhost:8080**. Node and the Dioxus CLI are not required.
+Open <http://localhost:8080>. You don't need Node or the Dioxus CLI.
 
-## Workspace
+## Apps
 
-Three apps open by default:
+Three windows open by default. The rest launch from the Applications menu or the command palette (⌘K or Ctrl+K).
 
-- **About Me** — the original site's Cloud Whisperer bio, Auckland location, skills, career history, projects, and social links. Career history is explicitly identified as carried over from the previous site, not newly verified employment information.
-- **Fractal Clock** — inspired by the [egui sample](https://www.egui.rs/#clock), with second/minute branches rotated relative to the hour hand, fading into a dense animated fractal. Open Settings to pause, set depth (0–10), zoom, change branch length, or reset. Each generation uses a single SVG path. Attribution is linked at the bottom of the app.
-- **Terminal** — a sandboxed shell with profile commands, command history, tab completion, and a small read-only virtual filesystem (`ls`, `cd`, `pwd`, and `cat`). It never executes system commands.
+| App | What it does |
+| --- | --- |
+| About Me | My bio, Auckland location, skills, career history, projects, and social links, carried over from my previous site. |
+| Fractal Clock | Animated SVG clock inspired by the [egui sample](https://www.egui.rs/#clock). Settings let you pause it, set depth from 0 to 10, zoom, and change branch length. |
+| Terminal | A sandboxed shell with profile commands, history, tab completion, and a small read-only virtual filesystem (`ls`, `cd`, `pwd`, `cat`). It never runs real system commands. |
+| Cloud Invoice Simulator | Six toy servers, a traffic slider, and a "go viral" button. A request conveyor animates a FIFO queue while an itemised receipt bills fictional USD compute and request charges. One simulated second passes every 250 ms, and requests time out after 10 simulated seconds. Hidden panes pause. Closing resets. |
+| Forward-Backward Lab | Interactive hidden Markov model visualizer using the classic hidden-weather example. Edit the observation sequence and inspect forward, backward, and smoothed posterior probabilities at each step, plus the transition and emission matrices. |
 
-Open **Cloud Invoice Simulator** from Applications; restore existing windows from the taskbar. Power six toy servers on/off, adjust traffic, or go viral for 30 simulated seconds. An animated request conveyor shows traffic moving through a Rust/WASM FIFO queue while an itemised receipt bills fictional compute and request charges. One simulated second runs every 250 ms; requests time out after 10 simulated seconds. Pause or reset from the app. Hidden panes pause automatically; closing resets the simulation. Prices are fictional USD, with no real cloud resources or charges.
+## Window manager
 
-Windows automatically tile into a large master pane and stacked secondary panes. There is no layout selector or tile counter. Larger stacks scroll rather than squeezing panes out of reach. Each title bar offers:
+Windows tile into one large master pane and a stacked column of secondary panes. Layout changes animate unless your browser requests reduced motion. Large stacks scroll rather than shrinking panes. On mobile, panes become a vertical stack.
 
-- **Make master** (⇤): move this pane to the first position.
-- **Minimize** (−): hide the pane and retile the others; its state is preserved.
-- **Zoom or restore** (□): temporarily fill the workspace with one pane.
-- **Close** (×): remove the pane; temporary state resets when reopened.
+Title bar controls:
 
-Each launch from Applications creates a **new independent instance**, including for apps that are already open. Taskbar buttons restore existing windows without duplicating them. Instance numbers identify matching title bars and taskbar buttons. Minimizing, zooming, promoting, or closing one instance never changes another instance's app state. Escape dismisses the menu and exits zoom. On mobile, panes become a vertically scrolling stack. App state resets on reload. The moon button toggles the workspace background theme. Field Notes, Pixel Studio, and Little Life have been removed. Previously saved notes are left untouched in browser storage, but the site no longer reads or writes them.
+- Make master (⇤) moves the pane to the first position.
+- Minimize (−) hides the pane and retiles. Its state is preserved.
+- Zoom (□) fills the workspace with one pane. Click again to restore.
+- Close (×) removes the pane. Temporary state resets when you reopen it.
+
+Every launch creates a new independent instance, even for apps already open. Taskbar buttons restore existing windows instead of duplicating them, and instance numbers match title bars to taskbar buttons. In the command palette, type to filter, use ↑/↓ to choose, and press Enter to open a new window or switch to an existing one. Escape dismisses menus, the palette, and zoom. The moon button toggles night mode for the whole desktop, including every app, and it follows your OS colour scheme, live, until you press it. Windows, bars, menus, the terminal, and the clock are frosted glass over a hand-drawn SVG wallpaper (day and night variants in `public/`); they turn opaque when the OS asks for reduced transparency. App state resets on reload.
 
 ## Checks and production build
 
@@ -40,7 +48,7 @@ cargo clippy --locked --target wasm32-unknown-unknown -- -D warnings
 trunk build --release --locked
 ```
 
-Optional browser integration tests (with `trunk serve` running separately):
+The browser integration tests are optional and need `trunk serve` running in another terminal:
 
 ```sh
 npm install --prefix /tmp/scott-browser-check playwright
@@ -49,9 +57,11 @@ NODE_PATH=/tmp/scott-browser-check/node_modules node tests/browser-smoke.cjs
 NODE_PATH=/tmp/scott-browser-check/node_modules node tests/cloud-smoke.cjs
 ```
 
-Set `BASE_URL` to test another server, or `CHROME_PATH` to use an installed Chrome executable. Node is only needed for this optional test.
+Set `BASE_URL` to test another server, or `CHROME_PATH` to use an installed Chrome. Only these tests need Node.
 
-Deploy `dist/` to a static host, or package it in the nginx container:
+## Deploy
+
+Copy `dist/` to any static host, or package it in the nginx container. The Dockerfile expects `dist/` to exist already:
 
 ```sh
 trunk build --release --locked
@@ -59,18 +69,18 @@ docker build -t scott-os:local .
 docker run --rm -p 8080:80 scott-os:local
 ```
 
-The Dockerfile expects an existing `dist/`. Optional Google Fonts have system fallbacks.
+The container serves `/healthz` and includes a health check. The Google Fonts are optional and fall back to system fonts.
 
-## CI and container registry
+### CI and container registry
 
-Pull requests and pushes to `main` run formatting checks, Rust tests, Clippy, and a release WASM build. Both browser suites run against the production nginx container. Only successful `main` builds publish to GitHub Container Registry, using the same tested artifact for all architectures:
+Pull requests and pushes to `main` run formatting, Rust tests, Clippy, and a release WASM build, then run both browser suites against the production nginx container. When a `main` build passes, CI publishes that same artifact for `linux/amd64`, `linux/arm64`, and `linux/arm/v7`:
 
 - `ghcr.io/scott-the-programmer/smkiwi/smkiwi:latest`
 - `ghcr.io/scott-the-programmer/smkiwi/smkiwi:sha-<full-commit-sha>`
 
-Images support `linux/amd64`, `linux/arm64`, and `linux/arm/v7`. GitHub Actions authenticates with its built-in `GITHUB_TOKEN`; no registry password secret is required. Dependabot checks Cargo, Docker, and GitHub Actions weekly.
+GitHub Actions authenticates with its built-in `GITHUB_TOKEN`. Dependabot checks Cargo, Docker, and GitHub Actions weekly. Publishing an image does not deploy it anywhere.
 
-Raspberry Pi deployment will be configured separately. The eventual pull/run commands are:
+I run the published image on a Raspberry Pi:
 
 ```sh
 docker pull ghcr.io/scott-the-programmer/smkiwi/smkiwi:latest
@@ -78,19 +88,21 @@ docker run -d --name scott-os --restart unless-stopped \
   -p 8080:80 ghcr.io/scott-the-programmer/smkiwi/smkiwi:latest
 ```
 
-Use the commit tag or image digest to pin a deployment or roll back. Private GHCR packages require login with a token that has `read:packages`; public packages allow anonymous pulls. The container serves `/healthz` and includes a health check. Publishing an image does not deploy it to the Pi.
+To roll back, pin the commit tag or image digest.
 
-## Source
+## Source layout
 
-- `src/main.rs` — workspace, tiling, launcher, window chrome
-- `src/model.rs` — window state and unit tests
-- `src/about.rs` — personal content recovered from the original React website
-- `src/clock.rs` — animated SVG fractal clock and geometry tests
-- `src/cloud.rs` — cloud traffic simulation, fictional billing, and invariant tests
-- `src/toys.rs` — sandboxed terminal
-- `desktop.css` — responsive workspace styles
-- `tests/browser-smoke.cjs` — app and tiling integration checks
+- `src/main.rs` holds the workspace, tiling, launcher, command palette, and window chrome.
+- `src/model.rs` holds window state and its unit tests.
+- `src/about.rs` holds my personal content from the original React site.
+- `src/clock.rs` holds the fractal clock and geometry tests.
+- `src/cloud.rs` holds the cloud traffic simulation, fictional billing, and invariant tests.
+- `src/forward_backward.rs` holds the hidden Markov model visualizer and algorithm tests.
+- `src/toys.rs` holds the sandboxed terminal.
+- `desktop.css` holds the responsive workspace styles.
+- `public/tile-transitions.js` animates layout transitions.
+- `tests/*.cjs` are the Playwright browser smoke tests.
 
-The legacy React site, generated API client, and unused image assets have been removed. Git history retains the previous website. Old `/blog` and `/dog` routes are not implemented.
+The legacy React site lives in git history. The old `/blog` and `/dog` routes are not implemented.
 
 [MIT License](LICENSE)

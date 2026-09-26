@@ -60,7 +60,7 @@ pub fn About() -> Element {
                     div { class: "highlight-row", dt { "Talk" } dd { "Presented at DevOps Auckland on Infrastructure as Code." } }
                     div { class: "highlight-row", dt { "Awards" } dd { "Zipster of the Year Award; second place at Zip hackathons in 2021 and 2022." } }
                     div { class: "highlight-row", dt { "Hackathon" } dd { "Lightspeed Hackathon 2023." } }
-                    div { class: "highlight-row", dt { "Dogs" } dd { "Dog owner since 2022. I got a second dog in 2024." } }
+                    div { class: "highlight-row", dt { "Dogs" } dd { "Dog owner since 2022." } }
                 }
             }
             div { class: "about-bottom", "AUCKLAND, NEW ZEALAND" span { "Fan of dogs and The Flash" } }
