@@ -1,6 +1,6 @@
 # Scott OS
 
-My personal website, built as a tiling window manager. I wrote it in Rust with [Dioxus](https://dioxuslabs.com), compiled it to WebAssembly, and serve it as static files. There is no backend and no real system access.
+My personal website, built as a tiling window manager. I vibe coded it with Fable and Astra. It is Rust with [Dioxus](https://dioxuslabs.com), compiled to WebAssembly and served as static files. There is no backend and no real system access.
 
 ![Scott OS workspace: About Me, Fractal Clock, and Terminal tiled side by side](docs/screenshot.png)
 

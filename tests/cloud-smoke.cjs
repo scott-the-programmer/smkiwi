@@ -15,7 +15,10 @@ const assert = require('node:assert/strict');
         .getByRole('button', { name: /Cloud Invoice Simulator/ }).click();
     };
     await launch();
-    const cloud = page.getByRole('region', { name: 'Cloud Invoice Simulator', exact: true }).first();
+    const regions = page.getByRole('region', { name: 'Cloud Invoice Simulator', exact: true });
+    // New windows are inserted at the front of the workspace, so pin each window by id.
+    const id = await regions.first().getAttribute('data-window-id');
+    const cloud = page.locator(`[data-window-id="${id}"]`);
     await cloud.getByRole('button', { name: 'Zoom or restore' }).click();
     await cloud.getByRole('button', { name: 'Pause simulation', exact: true }).click();
     const flow = cloud.getByRole('img', { name: /Animated request flow/ });
@@ -47,7 +50,6 @@ const assert = require('node:assert/strict');
     await page.waitForTimeout(600);
     assert.equal(await cloud.locator('.cloud-total dd').innerText(), idleBill, 'No billing with all servers off');
 
-    const id = await cloud.getAttribute('data-window-id');
     await cloud.getByRole('button', { name: 'Minimize', exact: true }).click();
     const hiddenCloud = page.locator(`[data-window-id="${id}"]`);
     const hiddenTime = await hiddenCloud.locator('.cloud-time').textContent();
@@ -57,7 +59,8 @@ const assert = require('node:assert/strict');
     await page.waitForFunction(({ id, old }) => document.querySelector(`[data-window-id="${id}"] .cloud-time`).textContent !== old, { id, old: hiddenTime });
 
     await launch();
-    const secondId = await page.getByRole('region', { name: 'Cloud Invoice Simulator', exact: true }).nth(1).getAttribute('data-window-id');
+    const secondId = await regions.first().getAttribute('data-window-id');
+    assert.notEqual(secondId, id);
     const second = page.locator(`[data-window-id="${secondId}"]`);
     assert.equal(await second.locator('.cloud-server.powered').count(), 2);
     assert.equal(await cloud.locator('.cloud-server.powered').count(), 0);
@@ -76,7 +79,7 @@ const assert = require('node:assert/strict');
     await page.screenshot({ path: '/tmp/scott-cloud-mobile-receipt.png', fullPage: true });
     await second.getByRole('button', { name: 'Close', exact: true }).click();
     await launch();
-    const fresh = page.getByRole('region', { name: 'Cloud Invoice Simulator', exact: true }).nth(1);
+    const fresh = regions.first();
     assert.equal(await fresh.getByRole('slider').inputValue(), '60');
     assert.equal(await fresh.locator('.cloud-server.powered').count(), 2);
     assert.deepEqual(errors, []);
