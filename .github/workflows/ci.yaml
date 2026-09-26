@@ -1,4 +1,4 @@
-name: CI
+name: Test and publish Scott OS
 
 on:
   push:
@@ -7,42 +7,83 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: scott-os-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v2
-      - name: Install & Build
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --check
+      - run: cargo test --locked
+      - run: cargo clippy --locked --target wasm32-unknown-unknown -- -D warnings
+      - uses: jetli/trunk-action@v0.5.0
+        with:
+          version: v0.21.14
+      - run: trunk build --release --locked
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test tools
         run: |
-          npm install
-          npm test
-          npm run build
+          npm install --prefix "$RUNNER_TEMP/browser-tests" playwright@1.58.2
+          "$RUNNER_TEMP/browser-tests/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Test the production container
+        env:
+          BASE_URL: http://127.0.0.1:8080
+        run: |
+          docker build -t scott-os:test .
+          docker run -d --name scott-os-test -p 127.0.0.1:8080:80 scott-os:test
+          trap 'docker logs scott-os-test; docker rm -f scott-os-test' EXIT
+          curl --fail --retry 20 --retry-connrefused --retry-delay 1 "$BASE_URL/healthz"
+          export NODE_PATH="$RUNNER_TEMP/browser-tests/node_modules"
+          node tests/browser-smoke.cjs
+          node tests/cloud-smoke.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scott-os
+          path: dist
+          if-no-files-found: error
+          retention-days: 7
+
   push_to_registry:
-    name: Push Docker image to GitHub Container Registry
+    needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
+    timeout-minutes: 15
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v1
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: scott-os
+          path: dist
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/${{ github.repository }}/smkiwi:latest
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: |
+            ghcr.io/${{ github.repository }}/smkiwi:latest
+            ghcr.io/${{ github.repository }}/smkiwi:sha-${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}

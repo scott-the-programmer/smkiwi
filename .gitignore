@@ -8,8 +8,9 @@
 # testing
 /coverage
 
-# production
-dist
+# Rust and production
+/target
+/dist
 /build
 
 # misc
