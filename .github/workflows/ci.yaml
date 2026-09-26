@@ -46,7 +46,7 @@ jobs:
           docker build -t scott-os:test .
           docker run -d --name scott-os-test -p 127.0.0.1:8080:80 scott-os:test
           trap 'docker logs scott-os-test; docker rm -f scott-os-test' EXIT
-          curl --fail --retry 20 --retry-connrefused --retry-delay 1 "$BASE_URL/healthz"
+          curl --fail --retry 20 --retry-all-errors --retry-delay 1 --max-time 3 "$BASE_URL/healthz"
           export NODE_PATH="$RUNNER_TEMP/browser-tests/node_modules"
           node tests/browser-smoke.cjs
           node tests/cloud-smoke.cjs
