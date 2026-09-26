@@ -289,7 +289,7 @@ h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--bright-teal-
 .highlight-row dd { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .about-bottom { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding: 18px 0; font-size: 8px; letter-spacing: 1px; color: var(--muted); }
 
-.taskbar { height: 55px; flex-shrink: 0; z-index: 11; background: var(--glass); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); display: flex; align-items: center; padding: 8px 13px; gap: 12px; border-top: 1px solid var(--line); box-shadow: 0 -1px 0 var(--shadow); }
+.taskbar { /* macOS-style dock: centred floating pill */ align-self: center; width: fit-content; max-width: calc(100vw - 26px); height: 55px; margin: 0 13px 10px; flex-shrink: 0; z-index: 11; background: var(--glass); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); display: flex; align-items: center; padding: 8px 10px; gap: 10px; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 10px 30px var(--shadow); }
 .start { display: flex; gap: 11px; align-items: center; background: var(--bright-teal-blue); color: var(--white); border-radius: 5px; height: 36px; padding: 0 15px; font-size: 25px; white-space: nowrap; }
 .start span { font-size: 11px; }
 .tasks { display: flex; gap: 6px; overflow-x: auto; min-width: 0; }
@@ -297,10 +297,8 @@ h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--bright-teal-
 .task { height: 35px; border: 1px solid var(--line); border-radius: 4px; padding: 0 12px; display: flex; align-items: center; gap: 8px; font-size: 11px; white-space: nowrap; background: var(--sky-tint); }
 .task > span:first-child { font-size: 18px; color: var(--bright-teal-blue); }
 .task.running { background: var(--surface); border-bottom: 2px solid var(--copperwood); }
-.taskbar-note { margin-left: auto; font-size: 10px; color: var(--muted); }
-.system-version { font-size: 8px; letter-spacing: 1px; color: var(--muted); margin-left: auto; }
-.menu-backdrop { position: absolute; inset: 42px 0 55px; z-index: 10; }
-.launcher { position: absolute; left: 13px; bottom: 67px; z-index: 11; background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4); border: 1px solid var(--ink); border-radius: 8px; width: 355px; max-width: calc(100vw - 26px); max-height: calc(100dvh - 120px); overflow: auto; box-shadow: 0 16px 50px var(--shadow); padding: 20px; }
+.menu-backdrop { position: absolute; inset: 42px 0 65px; z-index: 10; }
+.launcher { position: absolute; left: 50%; transform: translateX(-50%); bottom: 77px; z-index: 11; background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4); border: 1px solid var(--ink); border-radius: 8px; width: 355px; max-width: calc(100vw - 26px); max-height: calc(100dvh - 120px); overflow: auto; box-shadow: 0 16px 50px var(--shadow); padding: 20px; }
 .launcher-heading { display: flex; gap: 13px; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
 .launcher-heading > span { font-size: 39px; color: var(--tomato); }
 .launcher-heading strong { font-size: 18px; }
@@ -366,7 +364,6 @@ h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--bright-teal-
   .about-art { width: 150px; height: 150px; }
 }
 @media (max-width: 1000px) {
-  .taskbar-note { display: none; }
   .about { padding: 24px; }
   .about-art { width: 80px; height: 80px; border-radius: 13px; }
   .about-top > span:last-child { display: none; }
@@ -389,12 +386,11 @@ h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--bright-teal-
   .about-art { width: 90px; height: 90px; border-radius: 14px; }
   .about { padding: 24px; }
   .intro { font-size: 14px; }
-  .taskbar { gap: 8px; padding: 8px 12px; }
+  .taskbar { gap: 8px; padding: 8px; margin-bottom: 8px; }
   .task { padding: 0 9px; }
   .start { padding: 0 10px; }
   .start span { display: none; }
   .task-name { font-size: 10px; }
-  .system-version { display: none; }
   .about-bottom { font-size: 7px; }
   .empty-state { margin: auto; }
 }

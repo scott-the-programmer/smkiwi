@@ -213,8 +213,6 @@ fn App() -> Element {
                         }}
                     }
                 }
-                span { class: "taskbar-note", "Built with Rust + Dioxus" }
-                span { class: "system-version", "SCOTT OS / 02" }
             }
         }
     }

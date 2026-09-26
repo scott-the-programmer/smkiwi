@@ -13,8 +13,9 @@ const SKILLS: [&str; 9] = [
     "Flutter",
     "Kafka",
 ];
-const CAREER: [(&str, &str, &str); 7] = [
-    ("Starshipit", "Jan 2024 to present", ""),
+const CAREER: [(&str, &str, &str); 8] = [
+    ("TaxLab", "Jul 2025 to present", ""),
+    ("Starshipit", "Jan 2024 to Jul 2025", ""),
     ("Lightspeed", "Oct 2022 to Jan 2024", ""),
     ("Serko", "Jun 2022 to Oct 2022", ""),
     ("Zip", "Nov 2019 to Jun 2022", ""),
@@ -33,7 +34,7 @@ pub fn About() -> Element {
         article { class: "about",
             div { class: "about-top", span { class: "pill", "HELLO, I'M SCOTT" } span { "36.85° S / 174.76° E" } }
             div { class: "about-heading", div { p { class: "eyebrow", "SCOTT MURRAY" } h1 { "Cloud" br {} em { "Whisperer." } } } img { class: "about-art", src: "/public/scott-avatar.png", alt: "Scott Murray" } }
-            p { class: "intro", "Experienced " del { "bug" } " " strong { "clean code" } " typer who resides in Auckland, New Zealand. Actively purchasing video games that I will never play." }
+            p { class: "intro", "Experienced " del { "clean code typer" } " " strong { "AI wielder" } " who resides in Auckland, New Zealand. Actively purchasing video games that I will never play." }
             p { class: "about-focus", "☁  I work with cloud infrastructure and deployment systems.  ↗" }
             nav { class: "social-links", aria_label: "Social links",
                 a { href: "https://github.com/scott-the-programmer", target: "_blank", rel: "noopener noreferrer", "GitHub ↗" }
