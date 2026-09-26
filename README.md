@@ -37,7 +37,7 @@ Title bar controls:
 - Zoom (□) fills the workspace with one pane. Click again to restore.
 - Close (×) removes the pane. Temporary state resets when you reopen it.
 
-Every launch creates a new independent instance, even for apps already open. Taskbar buttons restore existing windows instead of duplicating them, and instance numbers match title bars to taskbar buttons. In the command palette, type to filter, use ↑/↓ to choose, and press Enter to open a new window or switch to an existing one. Escape dismisses menus, the palette, and zoom. The moon button toggles night mode for the whole desktop, including every app, and it follows your OS colour scheme, live, until you press it. Windows, bars, menus, the terminal, and the clock are frosted glass over a hand-drawn SVG wallpaper (day and night variants in `public/`); they turn opaque when the OS asks for reduced transparency. App state resets on reload.
+Every launch creates a new independent instance, even for apps already open. Taskbar buttons in the floating dock at the bottom of the screen restore existing windows instead of duplicating them, and instance numbers match title bars to dock buttons. In the command palette, type to filter, use ↑/↓ to choose, and press Enter to open a new window or switch to an existing one. Escape dismisses menus, the palette, and zoom. The moon button toggles night mode for the whole desktop, including every app, and it follows your OS colour scheme, live, until you press it. Windows, the top bar, the dock, menus, the terminal, and the clock are frosted glass over a hand-drawn SVG wallpaper (day and night variants in `public/`); they turn opaque when the OS asks for reduced transparency. App state resets on reload.
 
 ## Checks and production build
 
