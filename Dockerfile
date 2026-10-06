@@ -2,7 +2,7 @@
 # CI downloads the tested build artifact, so every platform serves the same WASM.
 FROM nginx:stable-alpine
 LABEL org.opencontainers.image.source="https://github.com/scott-the-programmer/smkiwi"
-LABEL org.opencontainers.image.description="Scott OS: Rust and WebAssembly desktop website"
+LABEL org.opencontainers.image.description="Scott OS: browser-local AI harness built with Rust and WebAssembly"
 LABEL org.opencontainers.image.licenses="MIT"
 COPY dist/ /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf

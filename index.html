@@ -3,14 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2176ae" />
-    <meta name="description" content="Scott Murray is a cloud engineer in Auckland, New Zealand. This personal site uses a tiling desktop built with Rust and Dioxus." />
-    <title>Scott OS | Scott Murray</title>
+    <meta name="theme-color" content="#050507" />
+    <meta
+      name="description"
+      content="Scott Murray's local AI workspace. Run a language model on your device with Chrome built-in AI or WebLLM. No API keys or server inference."
+    />
+    <title>Scott OS | Local AI Harness</title>
     <link data-trunk rel="rust" data-wasm-opt="s" />
     <link data-trunk rel="css" href="desktop.css" />
     <link data-trunk rel="copy-dir" href="public" />
     <link rel="icon" type="image/png" href="public/scott-avatar.png" />
-    <script src="public/tile-transitions.js" defer></script>
+    <script type="module" src="public/runtime/harness.js"></script>
   </head>
-  <body><div id="main"></div></body>
+  <body>
+    <div id="main"></div>
+    <noscript
+      >This workspace requires JavaScript and WebAssembly. No inference runs
+      without them.</noscript
+    >
+  </body>
 </html>

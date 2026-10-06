@@ -1,0 +1,148 @@
+<div class="workspace-heading">
+  <div>
+    <p class="eyebrow"><span class="green">●</span> PERSONAL / EXPERIMENTS</p>
+    <h1>Think locally<span class="green">.</span></h1>
+    <p class="muted">A small harness for a model that runs on your machine.</p>
+  </div>
+  <button id="new-session" class="secondary">＋ New session</button>
+</div>
+<div class="harness-grid">
+  <div class="conversation-panel">
+    <header class="panel-header">
+      <span><span class="green">⌘</span> Conversation</span
+      ><span class="mono muted" id="turn-count">0 TURNS</span>
+    </header>
+    <div
+      id="transcript"
+      class="transcript"
+      role="log"
+      aria-label="Conversation"
+      aria-live="off"
+    >
+      <div class="welcome">
+        <div class="welcome-icon">✳</div>
+        <p class="eyebrow">NO CLOUD REQUIRED</p>
+        <h2>Your context stays here.</h2>
+        <p>
+          Load a local model, give it a task, and watch it respond. This is a
+          text workspace—not an autonomous agent.
+        </p>
+        <div class="suggestions">
+          <button
+            data-prompt="Explain a difficult technical concept using a simple analogy."
+          >
+            Explain a concept <span>↗</span></button
+          ><button
+            data-prompt="Help me break a software project into three practical next steps."
+          >
+            Make a plan <span>↗</span></button
+          ><button
+            data-prompt="Review this idea and ask me one useful clarifying question."
+          >
+            Pressure-test an idea <span>↗</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="run-feedback" aria-live="polite">
+      <span class="status-dot" id="status-dot"></span
+      ><span id="run-status">No model loaded</span
+      ><span id="elapsed" class="mono"></span>
+    </div>
+    <form id="prompt-form" class="composer">
+      <label for="prompt" class="sr-only">Message to local model</label
+      ><textarea
+        id="prompt"
+        rows="3"
+        maxlength="8000"
+        placeholder="Give the local model a task…"
+      ></textarea>
+      <div class="composer-bottom">
+        <span class="mono muted">CTRL / ⌘ + ENTER TO RUN</span>
+        <div>
+          <button id="stop" type="button" class="secondary" hidden>
+            ■ Stop</button
+          ><button id="send" type="submit" class="primary" disabled>
+            Run prompt ↗
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <aside class="inspector" aria-label="Runtime controls">
+    <section class="control-card">
+      <header class="panel-header">
+        Runtime <span class="mono green">LOCAL</span>
+      </header>
+      <div class="card-body">
+        <label for="runtime">ENGINE</label
+        ><select id="runtime">
+          <option value="native">Chrome built-in AI</option>
+          <option value="webllm">WebLLM / WebGPU</option>
+        </select>
+        <div class="model-info">
+          <span class="model-icon">◈</span>
+          <div>
+            <strong id="model-name">Gemini Nano</strong
+            ><small id="model-description"
+              >Managed by Chrome · text / English</small
+            >
+          </div>
+        </div>
+        <p id="availability" class="capability">
+          Checking browser capabilities…
+        </p>
+        <p id="download-info" class="muted fine"></p>
+        <label class="consent"
+          ><input id="consent" type="checkbox" />Allow model download and local
+          initialization</label
+        ><button id="connect" class="primary full" disabled>
+          Load local model ↓</button
+        ><small class="fine muted"
+          >Nothing downloads until you choose to load.</small
+        >
+      </div>
+    </section>
+    <section class="control-card">
+      <header class="panel-header">
+        System instruction <span class="mono muted">01</span>
+      </header>
+      <div class="card-body">
+        <label for="system" class="sr-only">System instruction</label
+        ><textarea id="system" rows="5" maxlength="4000">
+You are a helpful, concise assistant. Be honest about uncertainty. You can only generate text; you cannot execute commands, browse, or access files.</textarea
+        ><small class="fine muted"
+          >Applied when loading. Start a new session to change it.</small
+        >
+      </div>
+    </section>
+    <section class="control-card boundary-card">
+      <div class="card-body">
+        <p class="eyebrow">EXECUTION BOUNDARY</p>
+        <dl>
+          <div>
+            <dt>Inference</dt>
+            <dd>On your device</dd>
+          </div>
+          <div>
+            <dt>Tools / agents</dt>
+            <dd>Not connected</dd>
+          </div>
+          <div>
+            <dt>API keys</dt>
+            <dd>Not required</dd>
+          </div>
+          <div>
+            <dt>Chat storage</dt>
+            <dd>Page memory only</dd>
+          </div>
+        </dl>
+        <p class="fine muted">
+          Model files come from Google (Chrome) or Hugging Face / GitHub
+          (WebLLM). Prompts are not sent to a server. Reloading clears the chat;
+          browser-cached models may remain. Small models can be wrong.
+        </p>
+      </div>
+    </section>
+  </aside>
+</div>

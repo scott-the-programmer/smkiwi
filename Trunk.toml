@@ -3,5 +3,10 @@ target = "index.html"
 dist = "dist"
 
 [serve]
-port = 8080
+port = 8090
 open = false
+
+[[hooks]]
+stage = "pre_build"
+command = "npm"
+command_arguments = ["run", "build"]

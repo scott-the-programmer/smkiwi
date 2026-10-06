@@ -9,7 +9,7 @@ const HELP: &str = "help             List available commands\nabout            S
 
 const ABOUT: &str = "Scott Murray • Cloud Whisperer\nAuckland, New Zealand. Cloud infrastructure and deployment systems.\ngithub.com/scott-the-programmer";
 const SKILLS: &str = "Cloud:          AWS · Azure · Kubernetes · Terraform\nEngineering:    Rust · Go · TypeScript · CI/CD\nInterests:      distributed systems · developer tooling · automation";
-const PROJECTS: &str = "smkiwi/         This Rust + Dioxus desktop\nagent-work/     Experiments in practical AI-assisted development\ncloud-labs/     Infrastructure and deployment explorations";
+const PROJECTS: &str = "smkiwi/         This Rust + Dioxus local AI harness\nagent-work/     Experiments in practical AI-assisted development\ncloud-labs/     Infrastructure and deployment explorations";
 const CONTACT: &str =
     "GitHub    https://github.com/scott-the-programmer\nLocation  Auckland, New Zealand";
 
@@ -210,7 +210,7 @@ fn read_file(path: &str, cwd: &str) -> String {
         "skills.txt" if cwd == "~" || path.contains('/') => SKILLS.to_string(),
         "contact.txt" if cwd == "~" || path.contains('/') => CONTACT.to_string(),
         "smkiwi.md" if cwd == "~/projects" || path.contains("projects/") => {
-            "# smkiwi\nA personal website presented as a tiling desktop, built with Rust and Dioxus."
+            "# smkiwi\nA personal website and browser-local AI harness, built with Rust and Dioxus."
                 .to_string()
         }
         "agent-work.md" if cwd == "~/projects" || path.contains("projects/") => {
