@@ -130,6 +130,20 @@ const assert = require("node:assert/strict");
     await page.waitForTimeout(200);
     assert.equal(await status.innerText(), "New session · no model loaded");
     assert.equal(await page.locator("#send").isEnabled(), false);
+    // Repeated pagehide / BFCache-style restoration invalidates ready sessions.
+    await page.evaluate(() => (fixture.mode = "ok"));
+    for (let visit = 0; visit < 2; visit++) {
+      await load();
+      await page.getByText("Local model ready", { exact: true }).waitFor();
+      const before = await page.evaluate(() => fixture.destroyed);
+      await page.evaluate(() => {
+        dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true }));
+        dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true }));
+      });
+      await page.getByText(/Stopped. Reconnect to continue/).waitFor();
+      assert.equal(await page.locator("#send").isEnabled(), false);
+      assert.equal(await page.evaluate(() => fixture.destroyed), before + 1);
+    }
     // Unsupported browser and insecure origin are separate real capability checks, not fake inference.
     await page.addInitScript(() => {
       Object.defineProperty(window, "LanguageModel", {

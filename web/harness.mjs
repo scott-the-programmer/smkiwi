@@ -129,7 +129,8 @@ function mount(root) {
       get("prompt").focus();
     }),
   );
-  window.addEventListener("pagehide", () => h.disconnect(), { once: true });
+  // BFCache restoration must not leave a ready UI pointing at a destroyed adapter.
+  window.addEventListener("pagehide", () => h.stop());
   updateRuntime();
   capabilities().then((result) => {
     caps = result;
