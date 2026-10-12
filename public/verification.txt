@@ -1,0 +1,49 @@
+Scott Murray portfolio
+Content revision, 11 October 2026
+
+Projects have equal presentation. No interactive example or flagship case study.
+Public contribution section uses broad project names and repository links.
+Individual fix details, PR status badges, and language labels were removed.
+Selected projects:
+https://github.com/scott-the-programmer/vscode-devcontainers-herdr
+README inspected at d256c8de363a49f834ac9817a14b2fbf5726f099.
+https://github.com/scott-the-programmer/terraform-provider-minikube
+README and source previously inspected at 99bb46f886e33522fc017dbd2a82e1def1bb25bc.
+https://github.com/scott-the-programmer/teams-emoji-upload-extension
+README inspected at 7c235d19cd05b4a353ded79046375ce91172af12.
+
+Upstream contributions, checked through GitHub's pull request API:
+All authored by scott-the-programmer. Descriptions come from PR titles and bodies.
+PostHog/posthog-dotnet #292: merged, fractional rollout percentage handling.
+https://github.com/PostHog/posthog-dotnet/pull/292
+Azure/go-autorest #685: merged, availability polling only for IMDS endpoints.
+https://github.com/Azure/go-autorest/pull/685
+dotnet/sdk #14854: merged, case-insensitive web.config discovery and tests.
+https://github.com/dotnet/sdk/pull/14854
+pulumi/pulumi #5177: merged, --suppress-permalink option and integration tests.
+https://github.com/pulumi/pulumi/pull/5177
+hashicorp/terraform-provider-azurerm #30961: open, sticky_settings for app slots.
+https://github.com/hashicorp/terraform-provider-azurerm/pull/30961
+Merged means merged into the linked repository, not a verified release claim.
+PR status is a dated snapshot. No upstream test suites were run for this revision.
+
+Profile facts come from public GitHub data. Career and interests were retained
+from the existing About page. No adoption or performance claims are presented.
+
+Completed revision checks, local macOS arm64:
+cargo fmt --check: PASS.
+cargo test --locked: PASS, 0 unit tests. Removed explorer has no remaining tests.
+cargo clippy --locked --target wasm32-unknown-unknown -- -D warnings: PASS.
+NO_COLOR=true trunk build --release --locked: PASS, Trunk 0.21.14.
+
+Playwright 1.58.2, installed Chrome, production dist served locally:
+PASS: equal projects, general contribution links, no language labels or fix details,
+keyboard, focus, direct anchors, assets,
+unique IDs, reduced motion, responsive widths, zoom reflow, no runtime errors.
+Widths checked: 1440, 1024, 768, 390, 320, and 640 CSS pixels.
+640 CSS pixels checks 200% reflow for a 1280px-wide display.
+Full-page desktop and mobile screenshots visually reviewed.
+
+axe-core 4.10.3, WCAG 2 A/AA and WCAG 2.1 AA rules:
+1440px: 0 violations. 390px: 0 violations.
+Automated checks do not establish full accessibility conformance.

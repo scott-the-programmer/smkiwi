@@ -1,157 +1,80 @@
-const { chromium } = require("playwright");
-const assert = require("node:assert/strict");
-const fs = require("node:fs");
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+
 (async () => {
-  const browser = await chromium.launch({
-    executablePath: process.env.CHROME_PATH || undefined,
-    headless: true,
-  });
+  const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined, headless: true });
   try {
-    const page = await browser.newPage({
-      viewport: { width: 1440, height: 1040 },
-    });
+    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
     const errors = [];
-    page.on("pageerror", (error) => errors.push(error.message));
-    const modelRequests = [];
-    page.on("request", (request) => {
-      if (
-        /huggingface|binary-mlc|googleapis.*optimization/i.test(request.url())
-      )
-        modelRequests.push(request.url());
-    });
-    await page.goto(process.env.BASE_URL || "http://localhost:8090");
-    await page.getByRole("heading", { name: "Think locally." }).waitFor();
-    await page
-      .getByText("Checking browser capabilities…")
-      .waitFor({ state: "hidden" });
-    assert.equal(await page.locator("#send").isEnabled(), false);
-    assert.equal(await page.locator("#connect").isEnabled(), false);
-    assert.equal(
-      await page.getByText(/Cloud Invoice Simulator|Forward.Backward/).count(),
-      0,
-    );
-    await page.getByRole("button", { name: /Explain a concept/ }).click();
-    assert.match(
-      await page.locator("#prompt").inputValue(),
-      /technical concept/,
-    );
-    fs.mkdirSync("test-results", { recursive: true });
-    await page.screenshot({
-      path: "test-results/harness-desktop.png",
-      fullPage: true,
-    });
-    await page
-      .getByRole("button", { name: "About Scott", exact: true })
-      .click();
-    await page.getByRole("heading", { name: "Cloud Whisperer." }).waitFor();
-    assert.equal(
-      await page
-        .getByRole("link", { name: "GitHub ↗", exact: true })
-        .getAttribute("href"),
-      "https://github.com/scott-the-programmer",
-    );
-    await page
-      .getByRole("button", { name: "Sandbox Terminal", exact: true })
-      .click();
-    const terminal = page.getByRole("region", {
-      name: "Sandbox Terminal",
-      exact: true,
-    });
-    await terminal
-      .getByRole("textbox", { name: "Terminal command" })
-      .fill("echo <img src=x onerror=alert(1)>");
-    await terminal.getByRole("textbox").press("Enter");
-    await terminal
-      .getByText("<img src=x onerror=alert(1)>", { exact: true })
-      .waitFor();
-    assert.equal(await terminal.locator("img").count(), 0);
-    await terminal.getByRole("textbox").fill("pwd");
-    await terminal.getByRole("textbox").press("Enter");
-    await terminal.getByText("/home/guest", { exact: true }).waitFor();
-    await terminal.getByRole("textbox").fill("cd projects");
-    await terminal.getByRole("textbox").press("Enter");
-    await terminal.getByRole("textbox").fill("cat smkiwi.md");
-    await terminal.getByRole("textbox").press("Enter");
-    await terminal
-      .getByText(/browser-local AI harness, built with Rust/)
-      .waitFor();
-    await terminal.getByRole("textbox").press("ArrowUp");
-    assert.equal(
-      await terminal.getByRole("textbox").inputValue(),
-      "cat smkiwi.md",
-    );
-    await page
-      .getByRole("button", { name: "Fractal Clock", exact: true })
-      .click();
-    const clock = page.getByRole("region", {
-      name: "Fractal Clock",
-      exact: true,
-    });
-    await clock.getByRole("img", { name: /Fractal clock/ }).waitFor();
-    const d = await clock.locator(".fractal-layer").last().getAttribute("d");
-    await page.waitForFunction(
-      (d) =>
-        document
-          .querySelector(".fractal-layer:last-child")
-          .getAttribute("d") !== d,
-      d,
-    );
-    await clock.locator("summary").click();
-    await clock.getByRole("button", { name: /Pause/ }).click();
-    const frozen = await clock.locator("svg").innerHTML();
-    await page.waitForTimeout(120);
-    assert.equal(await clock.locator("svg").innerHTML(), frozen);
-    await clock.getByRole("slider", { name: /Depth/ }).fill("3");
-    assert.equal(await clock.locator(".fractal-layer").count(), 4);
-    await clock.getByRole("button", { name: "Reset", exact: true }).click();
-    assert.equal(await clock.locator(".fractal-layer").count(), 10);
-    await page.getByRole("button", { name: "Workspace", exact: true }).click();
-    assert.match(
-      await page.locator("#prompt").inputValue(),
-      /technical concept/,
-    );
-    for (const width of [320, 390, 768, 1024]) {
-      await page.setViewportSize({ width, height: 844 });
-      assert(
-        await page.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-        "Horizontal overflow at " + width,
-      );
+    page.on('pageerror', error => errors.push(error.message));
+    const base = process.env.BASE_URL || 'http://localhost:8080';
+    await page.goto(base);
+    await page.getByRole('heading', { level: 1, name: 'Software engineer. Tinkerer. Human.' }).waitFor();
+    await page.evaluate(() => document.fonts.ready);
+    assert.equal(await page.getByRole('main').count(), 1);
+    assert.equal(await page.locator('h1').count(), 1);
+    assert.equal(await page.locator('.project-row').count(), 3);
+    const projects = await page.locator('.project-row h3 a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')));
+    assert.deepEqual(projects, [
+      'https://github.com/scott-the-programmer/vscode-devcontainers-herdr',
+      'https://github.com/scott-the-programmer/terraform-provider-minikube',
+      'https://github.com/scott-the-programmer/teams-emoji-upload-extension',
+    ]);
+    const contributions = await page.locator('.contribution-link').evaluateAll(nodes => nodes.map(node => ({ name: node.childNodes[0].textContent, href: node.getAttribute('href') })));
+    assert.deepEqual(contributions, [
+      { name: 'PostHog', href: 'https://github.com/PostHog/posthog-dotnet' },
+      { name: 'Azure SDKs', href: 'https://github.com/Azure/go-autorest' },
+      { name: '.NET', href: 'https://github.com/dotnet/sdk' },
+      { name: 'Pulumi', href: 'https://github.com/pulumi/pulumi' },
+      { name: "Azure's Terraform provider", href: 'https://github.com/hashicorp/terraform-provider-azurerm' },
+    ]);
+    assert.equal(await page.locator('.project-tech, .status, .contribution-description').count(), 0);
+    assert(!/TypeScript|Rust|\bGo\b|PR #|Fractional|sticky settings|web\.config/.test(await page.locator('body').innerText()));
+    assert(!/Spacelift|Backstage|Beam|Configuration explorer|Featured project/.test(await page.locator('body').innerText()));
+    assert.equal(await page.locator('#demo, #case-study, #evidence, .flagship, .explorer').count(), 0);
+    await page.keyboard.press('Tab');
+    assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Skip to content');
+    await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).hash, '#content');
+    const project = page.locator('.project-row h3 a').first();
+    await project.focus();
+    assert.equal(await project.evaluate(node => getComputedStyle(node).outlineStyle), 'solid');
+    const missing = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(link => link.hash && !document.getElementById(link.hash.slice(1))).map(link => link.href));
+    assert.deepEqual(missing, []);
+    assert.equal((await page.request.get(`${base}/public/verification.txt`)).status(), 200);
+    assert.equal((await page.request.get(`${base}/public/scott-avatar.png`)).status(), 200);
+    for (const anchor of ['work', 'contributions', 'about']) {
+      await page.goto(`${base}/#${anchor}`);
+      await page.reload();
+      await page.getByRole('heading', { level: 1 }).waitFor();
+      await page.waitForFunction(id => {
+        const target = document.getElementById(id);
+        const desired = Math.min(target.getBoundingClientRect().top + scrollY - 32, document.documentElement.scrollHeight - innerHeight);
+        return Math.abs(scrollY - desired) < 3;
+      }, anchor);
     }
-    for (const name of ["About Scott", "Sandbox Terminal", "Fractal Clock"]) {
-      await page.getByRole("button", { name, exact: true }).click();
-      await page.setViewportSize({ width: 320, height: 844 });
-      assert(
-        await page.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-        "Tool overflows at 320px: " + name,
-      );
-    }
-    await page.getByRole("button", { name: "Workspace", exact: true }).click();
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.screenshot({
-      path: "test-results/harness-mobile.png",
-      fullPage: true,
-    });
-    const ids = await page
-      .locator("[id]")
-      .evaluateAll((nodes) => nodes.map((n) => n.id));
+    const ids = await page.locator('[id]').evaluateAll(nodes => nodes.map(node => node.id));
     assert.equal(new Set(ids).size, ids.length);
-    assert.deepEqual(
-      modelRequests,
-      [],
-      "No model download without explicit consent",
-    );
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), 'auto');
+    for (const width of [1440, 1024, 768, 390, 320, 640]) {
+      await page.setViewportSize({ width, height: 900 });
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow at ${width}px`);
+    }
+    if (process.env.SCREENSHOT_DIR) {
+      for (const [label, width, height] of [['desktop', 1440, 1000], ['mobile', 390, 844]]) {
+        const capture = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
+        await capture.goto(base);
+        await capture.getByRole('heading', { level: 1 }).waitFor();
+        await capture.evaluate(() => document.fonts.ready);
+        await capture.waitForFunction(() => document.querySelector('.hero-profile img').naturalWidth > 0);
+        await capture.screenshot({ path: `${process.env.SCREENSHOT_DIR}/portfolio-${label}.png`, fullPage: true });
+        await capture.close();
+      }
+    }
     assert.deepEqual(errors, []);
-    console.log(
-      "PASS: real browser UI, navigation, bio links, sandbox XSS/history/filesystem, clock animation/pause/settings, responsive layout, no model download",
-    );
+    console.log('PASS: equal projects, general contribution links, no language labels or fix details, keyboard, focus, direct anchors, assets, unique IDs, reduced motion, responsive widths, zoom reflow, no runtime errors');
   } finally {
     await browser.close();
   }
-})().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+})().catch(error => { console.error(error); process.exit(1); });

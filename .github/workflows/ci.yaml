@@ -1,4 +1,4 @@
-name: Test and publish Scott OS
+name: Test and publish portfolio
 
 on:
   push:
@@ -28,8 +28,6 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
-      - run: npm ci
-      - run: npm test
       - run: cargo fmt --check
       - run: cargo test --locked
       - run: cargo clippy --locked --target wasm32-unknown-unknown -- -D warnings
@@ -51,7 +49,6 @@ jobs:
           curl --fail --retry 20 --retry-all-errors --retry-delay 1 --max-time 3 "$BASE_URL/healthz"
           export NODE_PATH="$RUNNER_TEMP/browser-tests/node_modules"
           node tests/browser-smoke.cjs
-          node tests/runtime-smoke.cjs
       - uses: actions/upload-artifact@v4
         with:
           name: scott-os
